@@ -29,6 +29,24 @@ namespace MyClub
 
         private Color defaultBackgrountColor = Color.FromArgb(30, 42, 58);
         private Color defaultForegrountColor = Color.FromArgb(240, 240, 240);
+
+        private Form activeForm = null;
+
+        private void OpenForm(Form childForm)
+        {
+            if (activeForm != null)
+            {
+                activeForm.Close();
+            }
+            activeForm = childForm;
+            childForm.TopLevel = false;
+            childForm.FormBorderStyle = FormBorderStyle.None;
+            childForm.Dock = DockStyle.Fill;
+            panel3.Controls.Add(childForm);
+            panel3.Tag = childForm;
+            childForm.BringToFront();
+            childForm.Show();
+        }
         
         private void SetButtonColors(IconButton button, Color backColor, Color foreColor)
         {
@@ -61,6 +79,8 @@ namespace MyClub
             leftPanel7.Visible = false;
             leftPanel8.Visible = false;
             leftPanel9.Visible = false;
+
+            OpenForm(new Profile());
         }
 
         private void iconButton2_Click(object sender, EventArgs e)
