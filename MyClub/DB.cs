@@ -8,6 +8,6 @@ namespace MyClub
 {
     public class DB
     {
-        public string StringConnection = @"Data Source=DESKTOP-N6JL58D\SQLEXPRESS;Initial Catalog=MyClubDB;Integrated Security=True";
+        public string StringConnection => "Server=DESKTOP-N6JL58D\\SQLEXPRESS;Database=MyClubDB;Trusted_Connection=True";
     }
 }
