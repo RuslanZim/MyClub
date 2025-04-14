@@ -329,7 +329,7 @@
             this.guna2CircleButton1.Size = new System.Drawing.Size(30, 30);
             this.guna2CircleButton1.TabIndex = 3;
             this.guna2CircleButton1.Text = "X";
-            
+            this.guna2CircleButton1.Click += new System.EventHandler(this.guna2CircleButton1_Click_1);
             // 
             // Auth
             // 

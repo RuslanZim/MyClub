@@ -38,7 +38,9 @@ namespace MyClub
             }
         }
 
-        private void guna2CircleButton1_Click(object sender, EventArgs e)
+        
+
+        private void guna2CircleButton1_Click_1(object sender, EventArgs e)
         {
             Application.Exit();
         }

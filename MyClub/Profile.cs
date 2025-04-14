@@ -37,6 +37,48 @@ namespace MyClub
             guna2TextBox4.Text = PersonalData.Current.Email;
         }
 
-        
+        private void guna2Button1_Click(object sender, EventArgs e) // Сохранение логина и пароля
+        {
+            string newLogin = guna2TextBox10.Text;
+            string newPassword = guna2TextBox9.Text;
+
+            // Проверяем, что поля не пусты
+            if (string.IsNullOrEmpty(newLogin) || string.IsNullOrEmpty(newPassword))
+            {
+                MessageBox.Show("Все поля необходимо заполнить",
+                    "Уведомление", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            // Спрашиваем подтверждение
+            DialogResult result = MessageBox.Show("Изменить логин и пароль?",
+                "Подтверждение", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (result == DialogResult.Yes)
+            {
+                // Обновляем данные в БД
+                DB db = new DB();
+                bool success = db.UpdateUserLoginPassword(PersonalData.Current.UserId, newLogin, newPassword);
+
+                if (success)
+                {
+                    // Обновляем локальный объект PersonalData через публичный метод
+                    PersonalData.Current.UpdateCredentials(newLogin, newPassword);
+
+                    MessageBox.Show("Данные успешно обновлены!",
+                        "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show("Ошибка при обновлении данных пользователя.",
+                        "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Действие было отменено!", "Уведомление",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
     }
 }
