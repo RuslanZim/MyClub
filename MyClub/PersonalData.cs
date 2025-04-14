@@ -74,17 +74,24 @@ namespace MyClub
             }
             return false;
         }
-        /// <summary>
-        /// Обновляет локальные свойства для логина и пароля.
-        /// Можно расширить метод для валидации или дополнительной логики.
-        /// </summary>
-        /// <param name="newLogin">Новый логин</param>
-        /// <param name="newPassword">Новый пароль</param>
+
         public void UpdateCredentials(string newLogin, string newPassword)
         {
             Login = newLogin;
             Password = newPassword;
         }
-    }
-}
 
+
+        public void UpdateProfile( string newLastName, string newFirstName, string newFatherName, DateTime? newDateBirth, string newPhoneNumber,string newEmail)
+        {
+            
+            LastName = newLastName;
+            FirstName = newFirstName;
+            FatherName = newFatherName;
+            DateBirth = newDateBirth;
+            PhoneNumber = newPhoneNumber;
+            Email = newEmail;
+        }
+    }
+
+}

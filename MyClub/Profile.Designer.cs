@@ -136,6 +136,7 @@
             this.guna2Button2.Size = new System.Drawing.Size(244, 45);
             this.guna2Button2.TabIndex = 10;
             this.guna2Button2.Text = "Сохранить";
+            this.guna2Button2.Click += new System.EventHandler(this.guna2Button2_Click);
             // 
             // label5
             // 

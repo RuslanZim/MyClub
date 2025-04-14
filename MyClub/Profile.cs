@@ -80,5 +80,51 @@ namespace MyClub
             }
         }
 
+        private void guna2Button2_Click(object sender, EventArgs e) // Сохранение профиля
+        {
+            string newEmail = guna2TextBox4.Text;
+            string newLastName = guna2TextBox2.Text;
+            string newFirstName = guna2TextBox1.Text;
+            string newFatherName = guna2TextBox3.Text;
+            DateTime? newDateBirth = null;
+            string newPhoneNumber = guna2TextBox5.Text;
+
+            // Проверяем, что поля не пусты
+            if (string.IsNullOrEmpty(newEmail) || string.IsNullOrEmpty(newLastName) ||
+                string.IsNullOrEmpty(newFirstName) || string.IsNullOrEmpty(newFatherName))
+            {
+                MessageBox.Show("Все поля необходимо заполнить",
+                    "Уведомление", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            // Проверяем корректность даты рождения
+            if (!string.IsNullOrEmpty(guna2TextBox6.Text) && DateTime.TryParse(guna2TextBox6.Text, out DateTime dateBirth))
+            {
+                newDateBirth = dateBirth;
+            }
+            // Спрашиваем подтверждение
+            DialogResult result = MessageBox.Show("Изменить профиль?",
+                "Подтверждение", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (result == DialogResult.Yes)
+            {
+                // Обновляем данные в БД
+                DB db = new DB();
+                bool success = db.UpdateUserProfile(PersonalData.Current.UserId,
+                    newLastName, newFirstName, newFatherName, newDateBirth, newPhoneNumber, newEmail); 
+                if (success)
+                {
+                    // Обновляем локальный объект PersonalData через публичный метод
+                    PersonalData.Current.UpdateProfile(newLastName, newFirstName, newFatherName, newDateBirth, newPhoneNumber, newEmail);
+                    MessageBox.Show("Данные успешно обновлены!",
+                        "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show("Ошибка при обновлении данных пользователя.",
+                        "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+        
     }
 }
