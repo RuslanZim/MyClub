@@ -86,6 +86,12 @@
     <Compile Include="Auth1.Designer.cs">
       <DependentUpon>Auth1.cs</DependentUpon>
     </Compile>
+    <Compile Include="ChangeCredentialsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ChangeCredentialsForm.Designer.cs">
+      <DependentUpon>ChangeCredentialsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="ComputeHash.cs" />
     <Compile Include="DB.cs" />
     <Compile Include="Form1.cs">
@@ -114,6 +120,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Auth1.resx">
       <DependentUpon>Auth1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ChangeCredentialsForm.resx">
+      <DependentUpon>ChangeCredentialsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>

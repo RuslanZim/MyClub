@@ -421,7 +421,6 @@
             this.guna2GroupBox3.Name = "guna2GroupBox3";
             this.guna2GroupBox3.Size = new System.Drawing.Size(337, 306);
             this.guna2GroupBox3.TabIndex = 11;
-            this.guna2GroupBox3.Text = "Безопастность";
             this.guna2GroupBox3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // label4

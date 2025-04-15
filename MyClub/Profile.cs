@@ -52,44 +52,24 @@ namespace MyClub
 
         private void guna2Button1_Click(object sender, EventArgs e) // Сохранение логина и пароля
         {
-            string newLogin = guna2TextBox10.Text;
-            string newPassword = guna2TextBox9.Text;
-
-            // Проверяем, что поля не пусты
-            if (string.IsNullOrEmpty(newLogin) || string.IsNullOrEmpty(newPassword))
+            // Открываем новую форму для смены логина/пароля
+            using (var changeForm = new ChangeCredentialsForm())
             {
-                MessageBox.Show("Все поля необходимо заполнить",
-                    "Уведомление", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
-            }
+                // Передаём в новую форму текущий логин — чтобы отобразить его по умолчанию
+                changeForm.CurrentLogin = PersonalData.Current.Login;
 
-            // Спрашиваем подтверждение
-            DialogResult result = MessageBox.Show("Изменить логин и пароль?",
-                "Подтверждение", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (result == DialogResult.Yes)
-            {
-                // Обновляем данные в БД
-                DB db = new DB();
-                bool success = db.UpdateUserLoginPassword(PersonalData.Current.UserId, newLogin, newPassword);
-
-                if (success)
+                // Запускаем форму модально
+                DialogResult result = changeForm.ShowDialog();
+                if (result == DialogResult.OK)
                 {
-                    // Обновляем локальный объект PersonalData через публичный метод
-                    PersonalData.Current.UpdateCredentials(newLogin, newPassword);
+                    // Если пользователь нажал "OK" и всё прошло успешно,
+                    // перезагрузим поля, чтобы отобразить изменённый логин/пароль
+                    guna2TextBox10.Text = PersonalData.Current.Login;
+                    guna2TextBox9.Text = PersonalData.Current.Password;
 
-                    MessageBox.Show("Данные успешно обновлены!",
+                    MessageBox.Show("Логин/пароль успешно изменены!",
                         "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-                else
-                {
-                    MessageBox.Show("Ошибка при обновлении данных пользователя.",
-                        "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-            else
-            {
-                MessageBox.Show("Действие было отменено!", "Уведомление",
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
