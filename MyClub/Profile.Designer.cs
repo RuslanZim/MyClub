@@ -337,7 +337,7 @@
             this.guna2Button1.Name = "guna2Button1";
             this.guna2Button1.Size = new System.Drawing.Size(244, 45);
             this.guna2Button1.TabIndex = 4;
-            this.guna2Button1.Text = "Сохранить";
+            this.guna2Button1.Text = "Сменить пароль";
             this.guna2Button1.Click += new System.EventHandler(this.guna2Button1_Click);
             // 
             // label9
@@ -367,6 +367,7 @@
             this.guna2TextBox9.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
             this.guna2TextBox9.Location = new System.Drawing.Point(22, 135);
             this.guna2TextBox9.Name = "guna2TextBox9";
+            this.guna2TextBox9.PasswordChar = '$';
             this.guna2TextBox9.PlaceholderText = "";
             this.guna2TextBox9.SelectedText = "";
             this.guna2TextBox9.Size = new System.Drawing.Size(282, 36);
