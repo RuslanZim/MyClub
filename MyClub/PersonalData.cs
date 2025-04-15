@@ -18,6 +18,8 @@ namespace MyClub
         public string FatherName { get; private set; }
         public DateTime? DateBirth { get; private set; }
         public string PhoneNumber { get; private set; }
+        public byte[] Photo { get; private set; }
+
 
         /// <summary>
         /// Загружает данные пользователя по логину и паролю.
@@ -37,7 +39,8 @@ namespace MyClub
                     up.[Имя] AS FirstName,
                     up.[Отчество] AS FatherName,
                     up.[Дата рождения] AS DateBirth,
-                    up.[Номер телефона] AS PhoneNumber
+                    up.[Номер телефона] AS PhoneNumber,
+                    up.[Фото] AS Photo
                 FROM UsersAuth ua
                 INNER JOIN UsersProfile up
                     ON ua.[ID пользователя] = up.[ID пользователя]
@@ -67,6 +70,12 @@ namespace MyClub
                             if (reader["DateBirth"] != DBNull.Value)
                                 DateBirth = Convert.ToDateTime(reader["DateBirth"]);
                             PhoneNumber = reader["PhoneNumber"].ToString();
+
+                            if (reader["Photo"] != DBNull.Value)
+                                Photo = (byte[])reader["Photo"];
+                            else
+                                Photo = null;
+
                             return true;
                         }
                     }
@@ -92,6 +101,12 @@ namespace MyClub
             PhoneNumber = newPhoneNumber;
             Email = newEmail;
         }
+
+        public void UpdatePhoto(byte[] newPhoto)
+        {
+            Photo = newPhoto;
+        }
+
     }
 
 }

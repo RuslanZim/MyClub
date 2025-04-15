@@ -108,6 +108,51 @@ namespace MyClub
             }
         }
 
+        public bool UpdateUserPhoto(int userId, byte[] photoData)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(StringConnection))
+                {
+                    connection.Open();
+                    if (connection.State != ConnectionState.Open)
+                    {
+                        MessageBox.Show("Не удалось установить подключение к базе данных.",
+                                        "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return false;
+                    }
+
+                    // Параметризованный запрос
+                    string sql = @"
+                    UPDATE UsersProfile
+                    SET [Фото] = @Photo
+                    WHERE [ID Пользователя] = @id";
+
+                    using (SqlCommand cmd = new SqlCommand(sql, connection))
+                    {
+                        cmd.Parameters.AddWithValue("@Photo", (object)photoData ?? DBNull.Value);
+                        cmd.Parameters.AddWithValue("@id", userId);
+
+                        int rowsAffected = cmd.ExecuteNonQuery();
+                        return (rowsAffected > 0);
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show($"Возникла ошибка при выполнении запроса: {ex.Message}",
+                    "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Произошла непредвиденная ошибка: {ex.Message}",
+                    "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+        }
+
+
     }
 
 }

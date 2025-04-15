@@ -35,6 +35,19 @@ namespace MyClub
                 : "";
             guna2TextBox5.Text = PersonalData.Current.PhoneNumber;
             guna2TextBox4.Text = PersonalData.Current.Email;
+
+            // Загрузка фото
+            if (PersonalData.Current.Photo != null && PersonalData.Current.Photo.Length > 0)
+            {
+                using (var ms = new System.IO.MemoryStream(PersonalData.Current.Photo))
+                {
+                    pictureBox1.Image = System.Drawing.Image.FromStream(ms);
+                }
+            }
+            else
+            {
+                pictureBox1.Image = null; 
+            }
         }
 
         private void guna2Button1_Click(object sender, EventArgs e) // Сохранение логина и пароля
@@ -125,6 +138,51 @@ namespace MyClub
                 }
             }
         }
-        
+
+        private void label4_Click(object sender, EventArgs e) //Сменить фото
+        {
+            // Диалог выбора изображения
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                // Фильтр для облегчения поиска картинок
+                openFileDialog.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp|All Files|*.*";
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    try
+                    {
+                        // Считываем выбранный файл в массив байтов
+                        byte[] fileData = System.IO.File.ReadAllBytes(openFileDialog.FileName);
+
+                        // Обновляем в БД
+                        DB db = new DB();
+                        bool success = db.UpdateUserPhoto(PersonalData.Current.UserId, fileData);
+                        if (success)
+                        {
+                            // Локально обновляем PersonalData и PictureBox
+                            PersonalData.Current.UpdatePhoto(fileData);
+
+                            using (var ms = new System.IO.MemoryStream(fileData))
+                            {
+                                pictureBox1.Image = System.Drawing.Image.FromStream(ms);
+                            }
+
+                            MessageBox.Show("Фото успешно обновлено!",
+                                "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Ошибка при обновлении фото.",
+                                "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Ошибка чтения файла: " + ex.Message,
+                            "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+        }
+
     }
 }
