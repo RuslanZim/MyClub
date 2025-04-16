@@ -103,7 +103,7 @@ namespace MyClub
         }
 
         public void UpdatePhoto(byte[] newPhoto)
-        {
+        {   
             Photo = newPhoto;
         }
 

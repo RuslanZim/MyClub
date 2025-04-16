@@ -27,10 +27,11 @@ namespace MyClub
             guna2TextBox10.Text = CurrentLogin;
         }
 
-        private void iconButton13_Click(object sender, EventArgs e)
+        private void iconButton13_Click(object sender, EventArgs e) 
         {
-            Application.Exit();
+            this.Close();
         }
+
 
         private void iconButton12_Click(object sender, EventArgs e)
         {

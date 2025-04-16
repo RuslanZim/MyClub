@@ -13,6 +13,115 @@ namespace MyClub
     {
         public string StringConnection => "Server=DESKTOP-N6JL58D\\SQLEXPRESS;Database=MyClubDB;Trusted_Connection=True";
 
+        /// <summary>
+        /// Регистрирует нового пользователя.
+        /// Вставляет данные в таблицу UsersAuth (логин, пароль, роль) и UsersProfile (дополнительная информация, включая фото) в рамках одной транзакции.
+        /// Остальные поля (email, Фамилия, Имя, Отчество, Дата рождения, Номер телефона, Фото) передаются значениями по умолчанию, если не заданы.
+        /// </summary>
+        /// <param name="login">Логин пользователя</param>
+        /// <param name="password">Пароль пользователя</param>
+        /// <param name="role">Роль, например "Пользователь"</param>
+        /// <param name="email">Электронная почта (может быть пустой)</param>
+        /// <param name="lastName">Фамилия (может быть пустой)</param>
+        /// <param name="firstName">Имя (может быть пустым)</param>
+        /// <param name="fatherName">Отчество (может быть пустым)</param>
+        /// <param name="dateBirth">Дата рождения (может быть null)</param>
+        /// <param name="phoneNumber">Номер телефона (может быть пустым)</param>
+        /// <param name="photo">Фото в виде массива байтов (может быть null)</param>
+        /// <returns>Возвращает true, если регистрация прошла успешно, иначе false.</returns>
+        public bool RegisterUser(
+            string login,
+            string password,
+            string role,
+            string email,
+            string lastName,
+            string firstName,
+            string fatherName,
+            DateTime? dateBirth,
+            string phoneNumber,
+            byte[] photo)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(StringConnection))
+                {
+                    connection.Open();
+                    SqlTransaction transaction = connection.BeginTransaction();
+                    try
+                    {
+                        // Вставляем данные в таблицу аутентификации UsersAuth
+                        string sqlAuth = @"
+                            INSERT INTO [dbo].[UsersAuth] ([Логин], [Пароль], [Роль])
+                            VALUES (@login, @password, @role);
+                            SELECT SCOPE_IDENTITY();";
+                        int newUserId;
+                        using (SqlCommand cmd = new SqlCommand(sqlAuth, connection, transaction))
+                        {
+                            cmd.Parameters.AddWithValue("@login", login);
+                            cmd.Parameters.AddWithValue("@password", password);
+                            cmd.Parameters.AddWithValue("@role", role);
+                            newUserId = Convert.ToInt32(cmd.ExecuteScalar());
+                        }
+
+                        // Вставляем данные в таблицу профиля UsersProfile
+                        string sqlProfile = @"
+                            INSERT INTO [dbo].[UsersProfile] (
+                                [Фамилия],
+                                [Имя],
+                                [Отчество],
+                                [Дата рождения],                              
+                                [Номер телефона],   
+                                [Электронная почта],                              
+                                [Фото],
+                                [ID Пользователя])
+                            VALUES (
+                                @lastName,
+                                @firstName,
+                                @fatherName,
+                                @dateBirth,  
+                                @phoneNumber,   
+                                @email,                                          
+                                @photo,
+                                @userId)";
+                        using (SqlCommand cmd = new SqlCommand(sqlProfile, connection, transaction))
+                        {      
+                            cmd.Parameters.AddWithValue("@lastName", lastName);
+                            cmd.Parameters.AddWithValue("@firstName", firstName);
+                            cmd.Parameters.AddWithValue("@fatherName", fatherName);
+                            cmd.Parameters.AddWithValue("@dateBirth", (object)dateBirth ?? DBNull.Value);
+                            cmd.Parameters.AddWithValue("@phoneNumber", phoneNumber);
+                            cmd.Parameters.AddWithValue("@email", email);
+                            // Явно указываем тип данных для параметра @photo
+                            if (photo != null)
+                            {
+                                cmd.Parameters.Add("@photo", SqlDbType.VarBinary).Value = photo;
+                            }
+                            else
+                            {
+                                cmd.Parameters.Add("@photo", SqlDbType.VarBinary).Value = DBNull.Value;
+                            }
+                            cmd.Parameters.AddWithValue("@userId", newUserId);
+                            cmd.ExecuteNonQuery();
+                        }
+
+                        transaction.Commit();
+                        return true;
+                    }
+                    catch (Exception ex)
+                    {
+                        try { transaction.Rollback(); } catch { }
+                        MessageBox.Show($"Ошибка регистрации: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка подключения: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+        }
+
         public bool UpdateUserLoginPassword(int userId, string newLogin, string newPassword) //Обновление логина и пароля
         {
             try
