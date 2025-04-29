@@ -16,5 +16,25 @@ namespace MyClub
         {
             InitializeComponent();
         }
+
+        private void guna2Button1_Click(object sender, EventArgs e) //добавить
+        {
+
+        }
+
+        private void guna2Button2_Click(object sender, EventArgs e)//изменить
+        {
+
+        }
+
+        private void guna2Button3_Click(object sender, EventArgs e) //удалить
+        {
+
+        }
+
+        private void guna2DataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
     }
 }

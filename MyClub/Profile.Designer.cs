@@ -101,6 +101,7 @@
             // 
             // guna2TextBox4
             // 
+            this.guna2TextBox4.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.guna2TextBox4.BorderColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.guna2TextBox4.BorderRadius = 10;
             this.guna2TextBox4.Cursor = System.Windows.Forms.Cursors.IBeam;
@@ -152,6 +153,7 @@
             // 
             // guna2TextBox5
             // 
+            this.guna2TextBox5.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.guna2TextBox5.BorderColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.guna2TextBox5.BorderRadius = 10;
             this.guna2TextBox5.Cursor = System.Windows.Forms.Cursors.IBeam;
@@ -184,6 +186,7 @@
             // 
             // guna2TextBox6
             // 
+            this.guna2TextBox6.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.guna2TextBox6.BorderColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.guna2TextBox6.BorderRadius = 10;
             this.guna2TextBox6.Cursor = System.Windows.Forms.Cursors.IBeam;
@@ -216,6 +219,7 @@
             // 
             // guna2TextBox3
             // 
+            this.guna2TextBox3.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.guna2TextBox3.BorderColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.guna2TextBox3.BorderRadius = 10;
             this.guna2TextBox3.Cursor = System.Windows.Forms.Cursors.IBeam;
@@ -248,6 +252,7 @@
             // 
             // guna2TextBox2
             // 
+            this.guna2TextBox2.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.guna2TextBox2.BorderColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.guna2TextBox2.BorderRadius = 10;
             this.guna2TextBox2.Cursor = System.Windows.Forms.Cursors.IBeam;
@@ -280,6 +285,7 @@
             // 
             // guna2TextBox1
             // 
+            this.guna2TextBox1.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.guna2TextBox1.BorderColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.guna2TextBox1.BorderRadius = 10;
             this.guna2TextBox1.Cursor = System.Windows.Forms.Cursors.IBeam;
@@ -354,6 +360,7 @@
             // 
             // guna2TextBox9
             // 
+            this.guna2TextBox9.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.guna2TextBox9.BorderColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.guna2TextBox9.BorderRadius = 10;
             this.guna2TextBox9.Cursor = System.Windows.Forms.Cursors.IBeam;
@@ -387,6 +394,7 @@
             // 
             // guna2TextBox10
             // 
+            this.guna2TextBox10.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.guna2TextBox10.BorderColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.guna2TextBox10.BorderRadius = 10;
             this.guna2TextBox10.Cursor = System.Windows.Forms.Cursors.IBeam;
@@ -439,7 +447,8 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(69, 52);
+            this.pictureBox1.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.pictureBox1.Location = new System.Drawing.Point(70, 52);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(215, 212);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;

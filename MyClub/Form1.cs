@@ -107,6 +107,8 @@ namespace MyClub
             leftPanel7.Visible = false;
             leftPanel8.Visible = false;
             leftPanel9.Visible = false;
+
+            OpenForm(new Users());
         }
 
         private void iconButton3_Click(object sender, EventArgs e)
