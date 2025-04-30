@@ -32,7 +32,7 @@ namespace MyClub
 
         private Form activeForm = null;
 
-        private void OpenForm(Form childForm)
+        public void OpenForm(Form childForm)
         {
             if (activeForm != null)
             {
