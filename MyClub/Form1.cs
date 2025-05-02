@@ -135,6 +135,8 @@ namespace MyClub
             leftPanel7.Visible = false;
             leftPanel8.Visible = false;
             leftPanel9.Visible = false;
+
+            OpenForm(new Sections());
         }
 
         private void iconButton4_Click(object sender, EventArgs e)
@@ -161,6 +163,8 @@ namespace MyClub
             leftPanel7.Visible = false;
             leftPanel8.Visible = false;
             leftPanel9.Visible = false;
+
+            OpenForm(new Timetable());
         }
 
         private void iconButton5_Click(object sender, EventArgs e)
@@ -187,6 +191,8 @@ namespace MyClub
             leftPanel7.Visible = false;
             leftPanel8.Visible = false;
             leftPanel9.Visible = false;
+
+            OpenForm(new Finance());
         }
 
         private void iconButton6_Click(object sender, EventArgs e)
@@ -213,6 +219,8 @@ namespace MyClub
             leftPanel7.Visible = false;
             leftPanel8.Visible = false;
             leftPanel9.Visible = false;
+
+            OpenForm(new Inventory());
         }
 
         private void iconButton7_Click(object sender, EventArgs e)
@@ -239,6 +247,8 @@ namespace MyClub
             leftPanel6.Visible = false;
             leftPanel8.Visible = false;
             leftPanel9.Visible = false;
+
+            OpenForm(new Notifications());
         }
 
         private void iconButton8_Click(object sender, EventArgs e)
@@ -265,6 +275,8 @@ namespace MyClub
             leftPanel6.Visible = false;
             leftPanel7.Visible = false;
             leftPanel9.Visible = false;
+
+            OpenForm(new Reports());
         }
 
         private void iconButton9_Click(object sender, EventArgs e)
@@ -291,6 +303,8 @@ namespace MyClub
             leftPanel6.Visible = false;
             leftPanel7.Visible = false;
             leftPanel8.Visible = false;
+
+            OpenForm(new Settings());
         }
 
         private void iconButton13_Click(object sender, EventArgs e)

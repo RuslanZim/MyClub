@@ -52,6 +52,7 @@
             this.guna2TextBox2 = new Guna.UI2.WinForms.Guna2TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.guna2TextBox1 = new Guna.UI2.WinForms.Guna2TextBox();
+            this.guna2GroupBox4 = new Guna.UI2.WinForms.Guna2GroupBox();
             this.guna2GroupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.guna2GroupBox2.SuspendLayout();
@@ -65,6 +66,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.guna2GroupBox3.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(42)))), ((int)(((byte)(58)))));
             this.guna2GroupBox3.BorderRadius = 20;
+            this.guna2GroupBox3.Controls.Add(this.guna2GroupBox4);
             this.guna2GroupBox3.Controls.Add(this.label4);
             this.guna2GroupBox3.Controls.Add(this.pictureBox2);
             this.guna2GroupBox3.CustomBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(42)))), ((int)(((byte)(58)))));
@@ -471,6 +473,16 @@
             this.guna2TextBox1.Size = new System.Drawing.Size(248, 36);
             this.guna2TextBox1.TabIndex = 0;
             // 
+            // guna2GroupBox4
+            // 
+            this.guna2GroupBox4.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.guna2GroupBox4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(137)))), ((int)(((byte)(149)))));
+            this.guna2GroupBox4.Location = new System.Drawing.Point(224, 22);
+            this.guna2GroupBox4.Name = "guna2GroupBox4";
+            this.guna2GroupBox4.Size = new System.Drawing.Size(8, 8);
+            this.guna2GroupBox4.TabIndex = 7;
+            this.guna2GroupBox4.Text = "guna2GroupBox4";
+            // 
             // AllProfile
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -521,5 +533,6 @@
         private Guna.UI2.WinForms.Guna2TextBox guna2TextBox1;
         private System.Windows.Forms.Label label8;
         private Guna.UI2.WinForms.Guna2TextBox guna2TextBox7;
+        private Guna.UI2.WinForms.Guna2GroupBox guna2GroupBox4;
     }
 }
