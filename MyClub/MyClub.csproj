@@ -37,6 +37,9 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>
+    </DocumentationFile>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -132,6 +135,10 @@
     </Compile>
     <Compile Include="Reports.Designer.cs">
       <DependentUpon>Reports.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Section.cs" />
+    <Compile Include="SectionCard.cs">
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Sections.cs">
       <SubType>Form</SubType>

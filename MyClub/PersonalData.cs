@@ -192,8 +192,10 @@ namespace MyClub
                     {
                         if (!rdr.Read()) return false;
 
-                        // Перезаписываем все поля модели:
-                        Login = rdr["Login"].ToString();
+                    this.UserId = userId;
+
+                    // Перезаписываем все поля модели:
+                    Login = rdr["Login"].ToString();
                         Password = rdr["Password"].ToString();
                         Role = rdr["Role"].ToString();
                         Email = rdr["Email"].ToString();

@@ -30,6 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.iconButton12 = new FontAwesome.Sharp.IconButton();
             this.iconButton13 = new FontAwesome.Sharp.IconButton();
             this.panel3 = new System.Windows.Forms.Panel();
             this.guna2GroupBox2 = new Guna.UI2.WinForms.Guna2GroupBox();
@@ -44,7 +45,6 @@
             this.label10 = new System.Windows.Forms.Label();
             this.guna2TextBox10 = new Guna.UI2.WinForms.Guna2TextBox();
             this.guna2BorderlessForm1 = new Guna.UI2.WinForms.Guna2BorderlessForm(this.components);
-            this.iconButton12 = new FontAwesome.Sharp.IconButton();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
             this.guna2GroupBox2.SuspendLayout();
@@ -64,6 +64,26 @@
             this.panel1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseDown_1);
             this.panel1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseMove_1);
             this.panel1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseUp_1);
+            // 
+            // iconButton12
+            // 
+            this.iconButton12.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.iconButton12.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.iconButton12.FlatAppearance.BorderSize = 0;
+            this.iconButton12.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.iconButton12.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.iconButton12.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.iconButton12.IconChar = FontAwesome.Sharp.IconChar.WindowMinimize;
+            this.iconButton12.IconColor = System.Drawing.SystemColors.ButtonFace;
+            this.iconButton12.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.iconButton12.IconSize = 30;
+            this.iconButton12.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.iconButton12.Location = new System.Drawing.Point(697, 0);
+            this.iconButton12.Name = "iconButton12";
+            this.iconButton12.Size = new System.Drawing.Size(42, 42);
+            this.iconButton12.TabIndex = 6;
+            this.iconButton12.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.iconButton12.UseVisualStyleBackColor = true;
             // 
             // iconButton13
             // 
@@ -157,6 +177,7 @@
             // 
             // guna2TextBox2
             // 
+            this.guna2TextBox2.BackColor = System.Drawing.Color.White;
             this.guna2TextBox2.BorderColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.guna2TextBox2.BorderRadius = 10;
             this.guna2TextBox2.Cursor = System.Windows.Forms.Cursors.IBeam;
@@ -191,6 +212,7 @@
             // 
             // guna2TextBox1
             // 
+            this.guna2TextBox1.BackColor = System.Drawing.Color.White;
             this.guna2TextBox1.BorderColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.guna2TextBox1.BorderRadius = 10;
             this.guna2TextBox1.Cursor = System.Windows.Forms.Cursors.IBeam;
@@ -244,6 +266,7 @@
             // 
             // guna2TextBox9
             // 
+            this.guna2TextBox9.BackColor = System.Drawing.Color.White;
             this.guna2TextBox9.BorderColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.guna2TextBox9.BorderRadius = 10;
             this.guna2TextBox9.Cursor = System.Windows.Forms.Cursors.IBeam;
@@ -278,6 +301,7 @@
             // 
             // guna2TextBox10
             // 
+            this.guna2TextBox10.BackColor = System.Drawing.Color.White;
             this.guna2TextBox10.BorderColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.guna2TextBox10.BorderRadius = 10;
             this.guna2TextBox10.Cursor = System.Windows.Forms.Cursors.IBeam;
@@ -302,26 +326,6 @@
             this.guna2BorderlessForm1.ContainerControl = this;
             this.guna2BorderlessForm1.DockIndicatorTransparencyValue = 0.6D;
             this.guna2BorderlessForm1.TransparentWhileDrag = true;
-            // 
-            // iconButton12
-            // 
-            this.iconButton12.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.iconButton12.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.iconButton12.FlatAppearance.BorderSize = 0;
-            this.iconButton12.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.iconButton12.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.iconButton12.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.iconButton12.IconChar = FontAwesome.Sharp.IconChar.WindowMinimize;
-            this.iconButton12.IconColor = System.Drawing.SystemColors.ButtonFace;
-            this.iconButton12.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.iconButton12.IconSize = 30;
-            this.iconButton12.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.iconButton12.Location = new System.Drawing.Point(697, 0);
-            this.iconButton12.Name = "iconButton12";
-            this.iconButton12.Size = new System.Drawing.Size(42, 42);
-            this.iconButton12.TabIndex = 6;
-            this.iconButton12.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.iconButton12.UseVisualStyleBackColor = true;
             // 
             // ChangeCredentialsForm
             // 

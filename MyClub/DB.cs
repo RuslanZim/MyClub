@@ -385,6 +385,7 @@ namespace MyClub
             using (var conn = new SqlConnection(StringConnection))
             {
                 conn.Open();
+
                 using (var tx = conn.BeginTransaction())
                 {
                     try
@@ -430,6 +431,224 @@ namespace MyClub
             }
         }
 
+     
+        public int CreateSection(string name, string description, int? trainerId, string sport)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(StringConnection))
+                {
+                    connection.Open();
+
+                    if (connection.State != ConnectionState.Open)
+                    {
+                        MessageBox.Show("Не удалось установить подключение к базе данных.", "Ошибка",
+                            MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return -1;
+                    }
+                    string sql = @"
+                        INSERT INTO Sections ([Название],[Описание],[ID тренера],[Вид спорта])
+                        VALUES (@name,@desc,@tid,@sport);
+                        SELECT SCOPE_IDENTITY();";
+                    using (SqlCommand cmd = new SqlCommand(sql, connection))
+                    {
+                        cmd.Parameters.AddWithValue("@name", name);
+                        cmd.Parameters.AddWithValue("@desc", description);
+                        cmd.Parameters.AddWithValue("@tid", trainerId.HasValue
+                            ? (object)trainerId.Value
+                            : DBNull.Value
+                        );
+                        cmd.Parameters.AddWithValue("@sport", sport);
+                        return Convert.ToInt32(cmd.ExecuteScalar());
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка создания секции: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return -1;
+            }
+        }
+
+
+        public List<Section> GetAllSections(string sportFilter)
+        {
+            var list = new List<Section>();
+            string sql = @"
+            SELECT s.[ID секции]   AS SectionId,
+             s.[Название]    AS Name,
+             s.[Описание]    AS Description,
+             s.[ID тренера]  AS TrainerId,
+             s.[Вид спорта]  AS Sport,
+              ISNULL(up.[Фамилия]+' '+up.[Имя],'') AS TrainerName,
+             up.[Фото]         AS TrainerPhoto
+              FROM Sections s
+              LEFT JOIN UsersProfile up
+                ON s.[ID тренера] = up.[ID пользователя]
+              WHERE (@sport IS NULL OR s.[Вид спорта] = @sport)";
+            using (var conn = new SqlConnection(StringConnection))
+            using (var cmd = new SqlCommand(sql, conn))
+            {
+                cmd.Parameters.AddWithValue("@sport", (object)sportFilter ?? DBNull.Value);
+                conn.Open();
+                using (var rdr = cmd.ExecuteReader())
+                {
+                    while (rdr.Read())
+                    {
+                        list.Add(new Section
+                        {
+                            SectionId = (int)rdr["SectionId"],
+                            Name = rdr["Name"].ToString(),
+                            Description = rdr["Description"].ToString(),
+                            TrainerId = rdr["TrainerId"] as int?,
+                            Sport = rdr["Sport"].ToString(),
+                            TrainerName = rdr["TrainerName"].ToString(),
+                            TrainerPhoto = rdr["TrainerPhoto"] != DBNull.Value
+                               ? (byte[])rdr["TrainerPhoto"]
+                               : null
+                        });
+                    }
+                }
+            }
+            return list;
+        }
+
+            public Section GetSectionById(int sectionId)
+            {
+                const string sql = @"
+                SELECT s.[ID секции]   AS SectionId,
+                 s.[Название]    AS Name,
+                 s.[Описание]    AS Description,
+                 s.[ID тренера]  AS TrainerId,
+                 s.[Вид спорта]  AS Sport,
+                 ISNULL(up.[Фамилия] + ' ' + up.[Имя], '') AS TrainerName,
+                 up.[Фото]         AS TrainerPhoto
+                  FROM Sections s
+                  LEFT JOIN UsersProfile up
+                    ON s.[ID тренера] = up.[ID пользователя]
+                  WHERE s.[ID секции] = @id";
+                using (var conn = new SqlConnection(StringConnection))
+                using (var cmd = new SqlCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@id", sectionId);
+                    conn.Open();
+                    using (var rdr = cmd.ExecuteReader())
+                    {
+                        if (!rdr.Read()) return null;
+                        return new Section
+                        {
+                            SectionId = (int)rdr["SectionId"],
+                            Name = rdr["Name"].ToString(),
+                            Description = rdr["Description"].ToString(),
+                            TrainerId = rdr["TrainerId"] as int?,
+                            Sport = rdr["Sport"].ToString(),
+                            TrainerName = rdr["TrainerName"].ToString(),
+                            TrainerPhoto = rdr["TrainerPhoto"] != DBNull.Value
+                               ? (byte[])rdr["TrainerPhoto"]
+                               : null
+                        };
+                    }
+                }
+            }
+
+
+        public List<PersonalData> GetAllTrainers()
+        {
+            List<PersonalData> list = new List<PersonalData>();
+            const string sql = @"
+                SELECT ua.[ID пользователя] AS UserId
+                FROM UsersAuth ua
+                WHERE ua.[Роль]='Тренер'";
+            using (SqlConnection conn = new SqlConnection(StringConnection))
+            {
+                using (SqlCommand cmd = new SqlCommand(sql, conn))
+                {
+                    conn.Open();
+                    using (SqlDataReader rdr = cmd.ExecuteReader())
+                    {
+                        while (rdr.Read())
+                        {
+                            PersonalData pd = new PersonalData();
+                            pd.SetPersonalDataById((int)rdr["UserId"]);
+                            list.Add(pd);
+                        }
+                    }
+                }
+            }
+            return list;
+        }
+    
+
+
+        public bool UpdateSection(int sectionId, string name, string description, int? trainerId, string sport)
+        {
+            const string sql = @"
+        UPDATE Sections
+           SET [Название]   = @name,
+               [Описание]   = @desc,
+               [ID тренера] = @tid,
+               [Вид спорта] = @sport
+         WHERE [ID секции] = @id";
+
+            try
+            {
+                using (var conn = new SqlConnection(StringConnection))
+                using (var cmd = new SqlCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@name", name);
+                    cmd.Parameters.AddWithValue("@desc", description);
+                    cmd.Parameters.AddWithValue("@sport", sport);
+                    cmd.Parameters.AddWithValue("@id", sectionId);
+
+                    // Явно проверяем HasValue
+                    if (trainerId.HasValue)
+                        cmd.Parameters.AddWithValue("@tid", trainerId.Value);
+                    else
+                        cmd.Parameters.AddWithValue("@tid", DBNull.Value);
+
+                    conn.Open();
+                    //вывод для проверки какие данные записываются
+                    MessageBox.Show($"ID секции: {sectionId}, Название: {name}, Описание: {description}, ID тренера: {trainerId}, Вид спорта: {sport}");
+                    return cmd.ExecuteNonQuery() > 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка обновления секции: {ex.Message}", "Ошибка",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+        }
+
+        public bool DeleteSection(int sectionId)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(StringConnection))
+                {
+                    connection.Open();
+
+                    if (connection.State != ConnectionState.Open)
+                    {
+                        MessageBox.Show("Не удалось установить подключение к базе данных.", "Ошибка",
+                            MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return false;
+                    }
+
+                    string sql = "DELETE FROM SectionMembers WHERE [ID секции] = @sectionId";
+                    using (SqlCommand cmd = new SqlCommand(sql, connection))
+                    {
+                        cmd.Parameters.AddWithValue("@sectionId", sectionId);
+                        return cmd.ExecuteNonQuery() > 0;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка удаления секции: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+        }
     }
 
 }
