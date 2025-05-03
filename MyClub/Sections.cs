@@ -214,7 +214,6 @@ namespace MyClub
                              ? (int?)null
                              : Convert.ToInt32(val);
 
-            // Логика валидации (необязательно)
             if (string.IsNullOrEmpty(name))
             {
                 MessageBox.Show("Название секции не может быть пустым", "Ошибка",
@@ -228,7 +227,6 @@ namespace MyClub
             _suppressFilter = false;
             _selectedSectionId = null;
 
-            // Вернуть кнопки в исходное состояние
             guna2Button4.Visible = false;
             guna2Button1.Visible = true;
             _selectedSectionId = null;

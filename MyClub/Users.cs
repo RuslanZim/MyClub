@@ -52,12 +52,10 @@ namespace MyClub
             var pd = guna2DataGridView1.CurrentRow.DataBoundItem as PersonalData;
             if (pd == null) return;
 
-            PersonalData.Current = pd;
-
             // Находим родительский Form1 и вызываем OpenForm
             if (this.TopLevelControl is Form1 mainForm)
             {
-                mainForm.OpenForm(new AllProfile());
+                mainForm.OpenForm(new AllProfile(pd));
             }
         }
 
@@ -68,7 +66,11 @@ namespace MyClub
 
         private void guna2Button1_Click(object sender, EventArgs e) //добавить
         {
-            // TODO: открыть форму создания нового пользователя и затем RefreshGrid()
+
+            if (this.TopLevelControl is Form1 mainForm)
+            {
+                mainForm.OpenForm(new AllProfile());
+            }
         }
 
         private void guna2Button3_Click(object sender, EventArgs e) //удалить
