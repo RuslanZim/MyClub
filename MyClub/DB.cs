@@ -649,6 +649,223 @@ namespace MyClub
                 return false;
             }
         }
-    }
 
+
+        /// <summary>
+        /// Возвращает список транзакций за диапазон дат [from..to]
+        /// </summary>
+        public List<Transaction> GetTransactions(DateTime from, DateTime to)
+        {
+            var list = new List<Transaction>();
+            const string sql = @"
+            SELECT
+            [ID транзакции]   AS TransactionId,
+            [Дата транзакции] AS Date,
+            [Сумма]           AS Amount,
+            [Тип операции]    AS OperationType,
+            [Комментарий]     AS Comment,
+            [ID пользователя] AS UserId
+            FROM dbo.Transactions
+            WHERE [Дата транзакции] BETWEEN @from AND @to
+            ORDER BY [Дата транзакции]";
+
+            try
+            {
+                using (var conn = new SqlConnection(StringConnection))
+                using (var cmd = new SqlCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@from", from.Date);
+                    cmd.Parameters.AddWithValue("@to", to.Date);
+                    conn.Open();
+                    using (var rdr = cmd.ExecuteReader())
+                        while (rdr.Read())
+                            list.Add(new Transaction
+                            {
+                                TransactionId = (int)rdr["TransactionId"],
+                                Date = (DateTime)rdr["Date"],
+                                Amount = (decimal)rdr["Amount"],
+                                OperationType = rdr["OperationType"].ToString(),
+                                Comment = rdr["Comment"].ToString(),
+                                UserId = rdr["UserId"] as int?
+                            });
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка GetTransactions: {ex.Message}",
+                                "Ошибка БД", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            return list;
+        }
+
+        public Transaction GetTransactionById(int transactionId)
+        {
+            const string sql = @"
+        SELECT
+            [ID транзакции]   AS TransactionId,
+            [Дата транзакции] AS Date,
+            [Сумма]           AS Amount,
+            [Тип операции]    AS OperationType,
+            [Комментарий]     AS Comment,
+            [ID пользователя] AS UserId
+        FROM dbo.Transactions
+        WHERE [ID транзакции] = @id";
+            using (var conn = new SqlConnection(StringConnection))
+            using (var cmd = new SqlCommand(sql, conn))
+            {
+                cmd.Parameters.AddWithValue("@id", transactionId);
+                conn.Open();
+                using (var rdr = cmd.ExecuteReader())
+                {
+                    if (!rdr.Read()) return null;
+                    return new Transaction
+                    {
+                        TransactionId = (int)rdr["TransactionId"],
+                        Date = (DateTime)rdr["Date"],
+                        Amount = (decimal)rdr["Amount"],
+                        OperationType = rdr["OperationType"].ToString(),
+                        Comment = rdr["Comment"].ToString(),
+                        UserId = rdr["UserId"] as int?
+                    };
+                }
+            }
+        }
+
+
+        /// <summary>
+        /// Баланс на начало периода: учитывает все транзакции до переданной даты.
+        /// </summary>
+        public decimal GetStartingBalance(DateTime beforeDate)
+        {
+            const string sql = @"
+            SELECT ISNULL(SUM(CASE 
+            WHEN [Тип операции] = 'Доход'  THEN [Сумма]
+            WHEN [Тип операции] = 'Расход' THEN -[Сумма]
+            ELSE 0 END), 0) FROM dbo.Transactions
+            WHERE [Дата транзакции] < @date";
+
+            try
+            {
+                using (var conn = new SqlConnection(StringConnection))
+                using (var cmd = new SqlCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@date", beforeDate.Date);
+                    conn.Open();
+                    return (decimal)cmd.ExecuteScalar();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка GetStartingBalance: {ex.Message}",
+                                "Ошибка БД", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return 0M;
+            }
+        }
+
+        /// <summary>
+        /// Текущий баланс: сумма всех транзакций во всей истории.
+        /// </summary>
+        public decimal GetCurrentBalance()
+        {
+            const string sql = @"
+            SELECT ISNULL(SUM(
+             CASE 
+             WHEN [Тип операции] = 'Доход'  THEN [Сумма]
+             WHEN [Тип операции] = 'Расход' THEN -[Сумма]
+             ELSE 0 END), 0) FROM dbo.Transactions";
+
+            try
+            {
+                using (var conn = new SqlConnection(StringConnection))
+                using (var cmd = new SqlCommand(sql, conn))
+                {
+                    conn.Open();
+                    return (decimal)cmd.ExecuteScalar();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка GetCurrentBalance: {ex.Message}",
+                                "Ошибка БД", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return 0M;
+            }
+        }
+
+    public bool CreateTransaction(
+    DateTime date,
+    string operationType,
+    decimal amount,
+    string comment,
+    int? userId)
+        {
+            const string sql = @"
+        INSERT INTO Transactions
+            ([Дата транзакции],[Тип операции],[Сумма],[Комментарий],[ID пользователя])
+        VALUES
+            (@date,@type,@amount,@comment,@userId)";
+            using (var conn = new SqlConnection(StringConnection))
+            using (var cmd = new SqlCommand(sql, conn))
+            {
+                cmd.Parameters.AddWithValue("@date", date);
+                cmd.Parameters.AddWithValue("@type", operationType);
+                cmd.Parameters.AddWithValue("@amount", amount);
+                cmd.Parameters.AddWithValue("@comment",
+                    string.IsNullOrEmpty(comment) ? DBNull.Value : (object)comment);
+                cmd.Parameters.AddWithValue("@userId",
+                    userId.HasValue ? (object)userId.Value : DBNull.Value);
+
+                conn.Open();
+                return cmd.ExecuteNonQuery() > 0;
+            }
+        }
+
+        public bool UpdateTransaction(
+            int transactionId,
+            DateTime date,
+            string operationType,
+            decimal amount,
+            string comment,
+            int? userId)
+        {
+            const string sql = @"
+        UPDATE Transactions
+           SET [Дата транзакции] = @date,
+               [Тип операции]    = @type,
+               [Сумма]           = @amount,
+               [Комментарий]     = @comment,
+               [ID пользователя] = @userId
+         WHERE [ID транзакции]   = @id";
+            using (var conn = new SqlConnection(StringConnection))
+            using (var cmd = new SqlCommand(sql, conn))
+            {
+                cmd.Parameters.AddWithValue("@id", transactionId);
+                cmd.Parameters.AddWithValue("@date", date);
+                cmd.Parameters.AddWithValue("@type", operationType);
+                cmd.Parameters.AddWithValue("@amount", amount);
+                cmd.Parameters.AddWithValue("@comment",
+                    string.IsNullOrEmpty(comment) ? DBNull.Value : (object)comment);
+                cmd.Parameters.AddWithValue("@userId",
+                    userId.HasValue ? (object)userId.Value : DBNull.Value);
+
+                conn.Open();
+                return cmd.ExecuteNonQuery() > 0;
+            }
+        }
+
+        public bool DeleteTransaction(int transactionId)
+        {
+            const string sql = @"
+            DELETE FROM dbo.Transactions
+            WHERE [ID транзакции] = @id";
+            using (var conn = new SqlConnection(StringConnection))
+            using (var cmd = new SqlCommand(sql, conn))
+            {
+                cmd.Parameters.AddWithValue("@id", transactionId);
+                conn.Open();
+                return cmd.ExecuteNonQuery() > 0;
+            }
+        }
+
+    }
 }
