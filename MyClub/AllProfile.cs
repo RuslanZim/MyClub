@@ -152,6 +152,7 @@ namespace MyClub
                     newDOB, newPhone, newEmail, _model.Photo
                 );
             }
+
             if (!ok)
             {
                 MessageBox.Show("Ошибка при сохранении данных!", "Ошибка",
