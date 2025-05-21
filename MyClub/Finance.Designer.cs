@@ -314,7 +314,7 @@
             this.guna2ComboBox4.Name = "guna2ComboBox4";
             this.guna2ComboBox4.Size = new System.Drawing.Size(152, 36);
             this.guna2ComboBox4.TabIndex = 8;
-            this.guna2ComboBox4.SelectedIndexChanged += new System.EventHandler(this.guna2ComboBox4_SelectedIndexChanged);
+
             // 
             // guna2ComboBox3
             // 
@@ -331,7 +331,7 @@
             this.guna2ComboBox3.Name = "guna2ComboBox3";
             this.guna2ComboBox3.Size = new System.Drawing.Size(152, 36);
             this.guna2ComboBox3.TabIndex = 6;
-            this.guna2ComboBox3.SelectedIndexChanged += new System.EventHandler(this.guna2ComboBox3_SelectedIndexChanged);
+
             // 
             // guna2HtmlLabel5
             // 
@@ -359,7 +359,7 @@
             this.guna2ComboBox2.Name = "guna2ComboBox2";
             this.guna2ComboBox2.Size = new System.Drawing.Size(152, 36);
             this.guna2ComboBox2.TabIndex = 4;
-            this.guna2ComboBox2.SelectedIndexChanged += new System.EventHandler(this.guna2ComboBox2_SelectedIndexChanged);
+
             // 
             // guna2HtmlLabel4
             // 
@@ -387,7 +387,7 @@
             this.guna2ComboBox1.Name = "guna2ComboBox1";
             this.guna2ComboBox1.Size = new System.Drawing.Size(152, 36);
             this.guna2ComboBox1.TabIndex = 2;
-            this.guna2ComboBox1.SelectedIndexChanged += new System.EventHandler(this.guna2ComboBox1_SelectedIndexChanged);
+
             // 
             // gunaChart2
             // 
@@ -552,7 +552,7 @@
             this.btnDelete.Size = new System.Drawing.Size(215, 45);
             this.btnDelete.TabIndex = 21;
             this.btnDelete.Text = "Удалить";
-            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
+
             // 
             // buttonChange
             // 
@@ -572,7 +572,7 @@
             this.buttonChange.Size = new System.Drawing.Size(215, 45);
             this.buttonChange.TabIndex = 20;
             this.buttonChange.Text = "Изменить";
-            this.buttonChange.Click += new System.EventHandler(this.buttonChange_Click);
+
             // 
             // btnNew
             // 
@@ -592,7 +592,7 @@
             this.btnNew.Size = new System.Drawing.Size(215, 45);
             this.btnNew.TabIndex = 19;
             this.btnNew.Text = "Создать";
-            this.btnNew.Click += new System.EventHandler(this.btnNew_Click);
+
             // 
             // guna2Panel8
             // 
@@ -624,7 +624,7 @@
             this.buttonUpdate.Size = new System.Drawing.Size(215, 45);
             this.buttonUpdate.TabIndex = 22;
             this.buttonUpdate.Text = "Обновить";
-            this.buttonUpdate.Click += new System.EventHandler(this.buttonUpdate_Click);
+
             // 
             // Finance
             // 
