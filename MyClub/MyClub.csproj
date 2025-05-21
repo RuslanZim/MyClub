@@ -155,6 +155,13 @@
     <Compile Include="Settings.Designer.cs">
       <DependentUpon>Settings.cs</DependentUpon>
     </Compile>
+    <Compile Include="SubscriptionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SubscriptionForm.Designer.cs">
+      <DependentUpon>SubscriptionForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SubscriptionType.cs" />
     <Compile Include="Timetable.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -174,6 +181,7 @@
     <Compile Include="Users.Designer.cs">
       <DependentUpon>Users.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserSubscription.cs" />
     <EmbeddedResource Include="AllProfile.resx">
       <DependentUpon>AllProfile.cs</DependentUpon>
     </EmbeddedResource>
@@ -215,6 +223,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Settings.resx">
       <DependentUpon>Settings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SubscriptionForm.resx">
+      <DependentUpon>SubscriptionForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Timetable.resx">
       <DependentUpon>Timetable.cs</DependentUpon>

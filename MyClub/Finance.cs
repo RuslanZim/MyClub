@@ -9,12 +9,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Forms;
+using System.Windows.Shapes;
 
 
 namespace MyClub
 {
     public partial class Finance : Form
     {
+        // список типов подписок из БД
+        private List<SubscriptionType> _subTypes;
         public Finance()
         {
             InitializeComponent();
@@ -26,8 +29,7 @@ namespace MyClub
             guna2ComboBox1.Items.Clear();
             guna2ComboBox1.Items.AddRange(new object[]
             {
-                "За всё время", "День", "Неделя",
-                "Месяц", "Квартал", "Полугодие", "Год"
+                "За всё время", "День", "Неделя","Месяц", "Квартал", "Полугодие", "Год"
             });
             guna2ComboBox1.SelectedIndex = 3; // «Месяц» по умолчанию
 
@@ -36,11 +38,54 @@ namespace MyClub
             guna2ComboBox2.Items.AddRange(new object[] { "Все", "Доход", "Расход" });
             guna2ComboBox2.SelectedIndex = 0;
 
+            // 3) Режим: транзакции или подписки
+            guna2ComboBox4.Items.Clear();
+            guna2ComboBox4.Items.AddRange(new object[] { "Транзакции", "Подписки" });
+            guna2ComboBox4.SelectedIndex = 0;
+
+            // 4) Для подписок: тип подписки
+            _subTypes = new DB().GetSubscriptionTypes()
+                ?? new List<SubscriptionType>();
+            // вставим «Все» вручную
+            var all = new SubscriptionType { SubscriptionTypeId = 0, Name = "Все" };
+            _subTypes.Insert(0, all);
+            guna2ComboBox3.DataSource = null;
+            guna2ComboBox3.DataSource = _subTypes;
+            guna2ComboBox3.DisplayMember = nameof(SubscriptionType.Name);
+            guna2ComboBox3.ValueMember = nameof(SubscriptionType.SubscriptionTypeId);
+            guna2ComboBox3.SelectedIndex = 0;
+
+
             // И сразу отрисовываем
             RefreshDashboard();
         }
+
         private void RefreshDashboard()
-        {// 1) Диапазон
+        {
+            if (guna2ComboBox4.Text == "Транзакции")
+            {
+                // режим транзакций
+                guna2HtmlLabel0.Text = "Баланс";
+                guna2HtmlLabel1.Text = "Доход";
+                guna2HtmlLabel2.Text = "Расход";
+                guna2HtmlLabel3.Text = "Итог";
+                RefreshTransactionDashboard();
+            }
+            else
+            {
+                // режим подписок
+                guna2HtmlLabel0.Text = "Активных";
+                guna2HtmlLabel1.Text = "Истёкших";
+                guna2HtmlLabel2.Text = "Всего";
+                guna2HtmlLabel3.Text = "";
+                RefreshSubscriptionDashboard();
+            }
+        }
+
+        #region — Транзакции —
+        private void RefreshTransactionDashboard()
+        {
+            // 1) Диапазон
             DateTime to = DateTime.Today, from;
             switch (guna2ComboBox1.Text)
             {
@@ -105,10 +150,138 @@ namespace MyClub
 
         }
 
+        #endregion
+
+        #region — Подписки —
+
+        private void RefreshSubscriptionDashboard()
+        {
+            // 1) Диапазон такой же
+            DateTime to = DateTime.Today, from;
+            switch (guna2ComboBox1.Text)
+            {
+                case "За всё время": from = new DateTime(2000, 1, 1); break;
+                case "День": from = to; break;
+                case "Неделя": from = to.AddDays(-7); break;
+                case "Месяц": from = to.AddMonths(-1); break;
+                case "Квартал": from = to.AddMonths(-3); break;
+                case "Полугодие": from = to.AddMonths(-6); break;
+                case "Год": from = to.AddYears(-1); break;
+                default: from = to.AddMonths(-1); break;
+            }
+
+            // 2) если список типов не инициализирован или у нас не режим "Подписки" —
+            //    просто зачистим грид и выйдем
+            if (guna2ComboBox3.DataSource == null || guna2ComboBox4.Text != "Подписки")
+            {
+                guna2DataGridView1.DataSource = null;
+                gunaChart1.Datasets.Clear();
+                gunaChart2.Datasets.Clear();
+                balanslabel.Text = incomelabel.Text = expenseslabel.Text = netprofitlabel.Text = "0";
+                return;
+            }
+
+            // 3) безопасно получаем typeId
+            int typeId = 0;
+            if (guna2ComboBox3.SelectedValue != null
+                && int.TryParse(guna2ComboBox3.SelectedValue.ToString(), out var tmp))
+            {
+                typeId = tmp;
+            }
+
+            // 4) теперь уже можно идти в БД
+            var db = new DB();
+            var subs = db.GetUserSubscriptions(from, to, typeId == 0 ? null : (int?)typeId)
+                        ?? new List<UserSubscription>();
+
+            // 5) если подписок нет — зачистим и выйдем
+            if (!subs.Any())
+            {
+                guna2DataGridView1.DataSource = null;
+                gunaChart1.Datasets.Clear();
+                gunaChart2.Datasets.Clear();
+                balanslabel.Text = incomelabel.Text = expenseslabel.Text = netprofitlabel.Text = "0";
+                return;
+            }
+
+            // 2) статистика
+            int total = subs.Count;
+            int active = subs.Count(s => s.EndDate >= DateTime.Today && s.IsActive);
+            int expired = total - active;
+            balanslabel.Text = $"{active}";
+            incomelabel.Text = $"{expired}";
+            expenseslabel.Text = $"{total}";
+            netprofitlabel.Text = "";
+
+            // 3) pie: по типам подписок
+            var pieData = subs
+                .GroupBy(s =>
+                    _subTypes.First(t => t.SubscriptionTypeId == s.SubscriptionTypeId).Name)
+                .Select(g => new { Type = g.Key, Count = g.Count() });
+
+            var pts = new LPointCollection();
+            foreach (var p in pieData)
+                pts.Add(new LPoint { Y = p.Count, Label = p.Type });
+
+            var pie = new GunaPieDataset
+            {
+                Label = "Подписки",
+                FillColors = new ColorCollection { Color.Blue, Color.Green, Color.Orange, Color.Purple, Color.Gray },
+                DataPoints = pts
+            };
+            gunaChart2.Datasets.Clear();
+            gunaChart2.Datasets.Add(pie);
+
+            // 4) area: по типам подписок   
+            var dailyCounts = Enumerable
+            .Range(0, (to - from).Days + 1)
+            .Select(offset => from.AddDays(offset))
+            .Select(d => new {Date = d,Count = subs.Count(s => s.StartDate <= d && s.EndDate >= d)})
+            .Where(x => x.Count > 0)
+            .ToList();
+
+            var linePts = new LPointCollection();
+            foreach (var x in dailyCounts)
+            {
+                linePts.Add(new LPoint
+                {
+                    Y = x.Count,
+                    Label = x.Date.ToString("dd.MM")
+                });
+            }
+
+            var area = new GunaAreaDataset
+            {
+                Label = "Активные подписки",
+                FillColor = Color.FromArgb(50, 67, 96, 130),
+                BorderColor = Color.FromArgb(200, 67, 96, 130),
+                DataPoints = linePts
+            };
+            gunaChart1.Datasets.Clear();
+            gunaChart1.Datasets.Add(area);
+
+            // 5) DataGridView
+            var users = PersonalData.GetAllUsers()
+                .ToDictionary(u => u.UserId, u => $"{u.LastName} {u.FirstName}");
+            var view = subs.Select(s => new
+            {
+                s.UserSubscriptionId,
+                Пользователь = users.TryGetValue(s.UserId, out var fio) ? fio : "(?)",
+                Тип = _subTypes.First(t => t.SubscriptionTypeId == s.SubscriptionTypeId).Name,
+                Начало = s.StartDate,
+                Конец = s.EndDate,
+                Активна = s.IsActive ? "Да" : "Нет"
+            }).ToList();
+
+            guna2DataGridView1.DataSource = view;
+        }
+
+        #endregion
+
         private void UpdateBalanceChart(IEnumerable<Transaction> txs, DateTime from)
         {
            // 1) Собираем уникальные даты и считаем накопительный баланс
-    var dates = txs.Select(t => t.Date).Distinct().OrderBy(d => d).ToList();
+            var dates = txs.Select(t => t.Date).Distinct().OrderBy(d => d).ToList();
             decimal run = new DB().GetStartingBalance(from);
 
             // 2) Очищаем старые точки
@@ -178,62 +351,82 @@ namespace MyClub
             gunaChart2.Datasets.Add(pie);
         }
 
-        private void guna2ComboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            RefreshDashboard();
-        }
-
-        private void guna2ComboBox2_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            RefreshDashboard();
-        }
+        
 
         private void btnNew_Click(object sender, EventArgs e)
         {
-            if (this.TopLevelControl is Form1 mainForm)
-            {
+            if (!(this.TopLevelControl is Form1 mainForm)) return;
+
+            if (guna2ComboBox4.Text == "Транзакции")
                 mainForm.OpenForm(new TransactionForm());
-            }
+            else
+                mainForm.OpenForm(new SubscriptionForm());
         }
 
-        private void buttonUpdate_Click(object sender, EventArgs e)
-        {
-            RefreshDashboard();
-        }
+       
 
         private void buttonChange_Click(object sender, EventArgs e)
         {
             if (guna2DataGridView1.CurrentRow == null) return;
+            var mainForm = this.TopLevelControl as Form1;
+            if (mainForm == null) return;
 
-            // 1) Считаем ID из скрытой колонки
-            int id = (int)guna2DataGridView1.CurrentRow.Cells["TransactionId"].Value;
-
-            // 2) Подтягиваем полный объект из БД
-            var db = new DB();
-            var tx = db.GetTransactionById(id);
-            if (tx == null)
+            if (guna2ComboBox4.Text == "Транзакции")
             {
-                MessageBox.Show("Транзакция не найдена.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            if (this.TopLevelControl is Form1 mainForm)
-            {
+                int id = (int)guna2DataGridView1.CurrentRow.Cells["TransactionId"].Value;
+                var tx = new DB().GetTransactionById(id);
+                if (tx == null) 
+                {
+                    MessageBox.Show("Транзакция не найдена.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
                 mainForm.OpenForm(new TransactionForm(tx));
+            }
+            else
+            {
+                int id = (int)guna2DataGridView1.CurrentRow.Cells["UserSubscriptionId"].Value;
+                var sub = new DB().GetUserSubscriptionById(id);
+                if (sub == null) 
+                { 
+                    MessageBox.Show("Подписка не найдена.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return; 
+                }
+                mainForm.OpenForm(new SubscriptionForm(sub));
             }
         }
         private void btnDelete_Click(object sender, EventArgs e)
         {
 
             if (guna2DataGridView1.CurrentRow == null) return;
-            var tx = (Transaction)guna2DataGridView1.CurrentRow.DataBoundItem;
-            if (MessageBox.Show($"Удалить транзакцию #{tx.TransactionId}?", "Подтвердите",
-                 MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes) return;
-            if (new DB().DeleteTransaction(tx.TransactionId))
-                RefreshDashboard();
+            var db = new DB();
+
+            if (guna2ComboBox4.Text == "Транзакции")
+            {
+                var tx = (Transaction)guna2DataGridView1.CurrentRow.DataBoundItem;
+                if (MessageBox.Show($"Удалить транзакцию #{tx.TransactionId}?", "Подтвердите", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                    db.DeleteTransaction(tx.TransactionId);
+            }
             else
-                MessageBox.Show("Ошибка при удалении.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-       
+            {
+                int id = (int)guna2DataGridView1.CurrentRow.Cells["UserSubscriptionId"].Value;
+                if (MessageBox.Show($"Удалить подписку #{id}?", "Подтвердите", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+
+                    db.DeleteUserSubscription(id);
+            }
+
+            RefreshDashboard();
+
         }
+
+        private void guna2ComboBox1_SelectedIndexChanged(object sender, EventArgs e) => RefreshDashboard();
+
+        private void guna2ComboBox2_SelectedIndexChanged(object sender, EventArgs e) => RefreshDashboard();
+
+        private void buttonUpdate_Click(object sender, EventArgs e) => RefreshDashboard();
+
+        private void guna2ComboBox3_SelectedIndexChanged(object sender, EventArgs e) => RefreshDashboard();
+
+        private void guna2ComboBox4_SelectedIndexChanged(object sender, EventArgs e) => RefreshDashboard();
+
     }
 }
