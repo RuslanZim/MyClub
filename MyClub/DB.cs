@@ -867,5 +867,317 @@ namespace MyClub
             }
         }
 
+        /// <summary>Справочник активных типов подписок</summary>
+        public List<SubscriptionType> GetSubscriptionTypes()
+        {
+            var list = new List<SubscriptionType>();
+            const string sql = @"
+            SELECT 
+                    [ID типа подписки]    AS SubscriptionTypeId,
+                    [Название]            AS Name,
+                    [Описание]            AS Description,
+                    [Цена]                AS Price,
+                    [Длительность_дней]   AS DurationDays,
+                    [Дата создания]       AS CreatedAt
+                  FROM dbo.[SubscriptionType]
+                 ORDER BY [Название]";
+            try
+            {
+                using (var conn = new SqlConnection(StringConnection))
+                using (var cmd = new SqlCommand(sql, conn))
+                {
+                    conn.Open();
+                    using (var rdr = cmd.ExecuteReader())
+                    {
+                        while (rdr.Read())
+                        {
+                            list.Add(new SubscriptionType
+                            {
+                                SubscriptionTypeId = rdr.GetInt32(0),
+                                Name = rdr.GetString(1),
+                                Description = rdr.IsDBNull(2) ? null : rdr.GetString(2),
+                                Price = rdr.GetDecimal(3),
+                                DurationDays = rdr.GetInt32(4),
+                                CreatedAt = rdr.GetDateTime(5),
+                            });
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка GetSubscriptionTypes: {ex.Message}", "Ошибка БД",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            return list;
+        }
+
+        /// <summary>
+        /// Возвращает оформлённые подписки за период [from..to];
+        /// если typeFilter != null — фильтрует по SubscriptionTypeId.
+        /// </summary>
+        public List<UserSubscription> GetUserSubscriptions(DateTime from, DateTime to, int? typeFilter)
+        {
+            var list = new List<UserSubscription>();
+            const string sql = @"
+               SELECT
+                    [ID подписки]          AS UserSubscriptionId,
+                    [ID пользователя]      AS UserId,
+                    [ID типа подписки]     AS SubscriptionTypeId,
+                    [Дата начала]          AS StartDate,
+                    [Дата окончания]       AS EndDate,
+                    [Автопродление]        AS IsActive
+                  FROM dbo.[UserSubscription]
+                 WHERE [Дата начала] BETWEEN @from AND @to
+                   AND (@typeFilter IS NULL OR [ID типа подписки] = @typeFilter)
+                 ORDER BY [Дата начала]";
+            try
+            {
+                using (var conn = new SqlConnection(StringConnection))
+                using (var cmd = new SqlCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@from", from.Date);
+                    cmd.Parameters.AddWithValue("@to", to.Date);
+                    cmd.Parameters.AddWithValue("@typeFilter", (object)typeFilter ?? DBNull.Value);
+                    conn.Open();
+                    using (var rdr = cmd.ExecuteReader())
+                    {
+                        while (rdr.Read())
+                        {
+                            list.Add(new UserSubscription
+                            {
+                                UserSubscriptionId = rdr.GetInt32(0),
+                                UserId = rdr.GetInt32(1),
+                                SubscriptionTypeId = rdr.GetInt32(2),
+                                StartDate = rdr.GetDateTime(3),
+                                EndDate = rdr.GetDateTime(4),
+                                IsActive = rdr.GetBoolean(5),
+                            });
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка GetUserSubscriptions: {ex.Message}", "Ошибка БД",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            return list;
+        }
+
+        //// <summary>Возвращает оформленную подписку по её идентификатору или null, если не найдена</summary>
+        public UserSubscription GetUserSubscriptionById(int subscriptionId)
+        {
+            const string sql = @"
+           SELECT
+                    [ID подписки]          AS UserSubscriptionId,
+                    [ID пользователя]      AS UserId,
+                    [ID типа подписки]     AS SubscriptionTypeId,
+                    [Дата начала]          AS StartDate,
+                    [Дата окончания]       AS EndDate,
+                    [Автопродление]        AS IsActive
+                  FROM dbo.[UserSubscription]
+                WHERE [ID подписки] = @id";
+            try
+            {
+                using (var conn = new SqlConnection(StringConnection))
+                using (var cmd = new SqlCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@id", subscriptionId);
+                    conn.Open();
+                    using (var rdr = cmd.ExecuteReader())
+                    {
+                        if (!rdr.Read()) return null;
+                        return new UserSubscription
+                        {
+                            UserSubscriptionId = rdr.GetInt32(0),
+                            UserId = rdr.GetInt32(1),
+                            SubscriptionTypeId = rdr.GetInt32(2),
+                            StartDate = rdr.GetDateTime(3),
+                            EndDate = rdr.GetDateTime(4),
+                            IsActive = rdr.GetBoolean(5)
+                        };
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка GetUserSubscriptionById: {ex.Message}", "Ошибка БД",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+        }
+
+
+
+        /// <summary>Добавить подписку пользователю</summary>
+        public bool CreateUserSubscription(int userId, int typeId, DateTime startDate, DateTime endDate, bool autoRenew)
+        {
+            const string sql = @"
+                INSERT INTO dbo.[UserSubscription]
+                    ([ID пользователя],[ID типа подписки],[Дата начала],[Дата окончания],[Автопродление])
+                VALUES
+                    (@uid, @tid, @start, @end, @auto)";
+            try
+            {
+                using (var conn = new SqlConnection(StringConnection))
+                using (var cmd = new SqlCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@uid", userId);
+                    cmd.Parameters.AddWithValue("@tid", typeId);
+                    cmd.Parameters.AddWithValue("@start", startDate.Date);
+                    cmd.Parameters.AddWithValue("@end", endDate.Date);
+                    cmd.Parameters.AddWithValue("@auto", autoRenew);
+                    conn.Open();
+                    return cmd.ExecuteNonQuery() > 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка CreateUserSubscription: {ex.Message}", "Ошибка БД",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+        }
+
+        /// <summary>Обновить подписку</summary>
+        public bool UpdateUserSubscription(int subscriptionId, DateTime startDate, DateTime endDate, bool autoRenew)
+        {
+            const string sql = @"
+                UPDATE dbo.[UserSubscription]
+                   SET [Дата начала]    = @start,
+                       [Дата окончания] = @end,
+                       [Автопродление]  = @auto
+                 WHERE [ID подписки]   = @id";
+            try
+            {
+                using (var conn = new SqlConnection(StringConnection))
+                using (var cmd = new SqlCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@id", subscriptionId);
+                    cmd.Parameters.AddWithValue("@start", startDate.Date);
+                    cmd.Parameters.AddWithValue("@end", endDate.Date);
+                    cmd.Parameters.AddWithValue("@auto", autoRenew);
+                    conn.Open();
+                    return cmd.ExecuteNonQuery() > 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка UpdateUserSubscription: {ex.Message}", "Ошибка БД",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+        }
+
+        /// <summary>Удалить подписку</summary>
+        public bool DeleteUserSubscription(int subscriptionId)
+        {
+            const string sql = @"
+                 DELETE FROM dbo.[UserSubscription]
+                 WHERE [ID подписки] = @id";
+            try
+            {
+                using (var conn = new SqlConnection(StringConnection))
+                using (var cmd = new SqlCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@id", subscriptionId);
+                    conn.Open();
+                    return cmd.ExecuteNonQuery() > 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка DeleteUserSubscription: {ex.Message}", "Ошибка БД",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+        }
+
+        /// <summary>Создать новый тип подписки</summary>
+        public bool CreateSubscriptionType(string name, string description, decimal price, int durationDays)
+        {
+            const string sql = @"
+                INSERT INTO dbo.[SubscriptionType]
+                    ([Название],[Описание],[Цена],[Длительность_дней])
+                VALUES
+                    (@name,@desc,@price,@days)";
+            try
+            {
+                using (var conn = new SqlConnection(StringConnection))
+                using (var cmd = new SqlCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@name", name);
+                    cmd.Parameters.AddWithValue("@desc", (object)description ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@price", price);
+                    cmd.Parameters.AddWithValue("@days", durationDays);
+                    conn.Open();
+                    return cmd.ExecuteNonQuery() > 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка CreateSubscriptionType: {ex.Message}", "Ошибка БД",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+        }
+
+        /// <summary>Обновить тип подписки</summary>
+        public bool UpdateSubscriptionType(int typeId, string name, string description, decimal price, int durationDays)
+        {
+            const string sql = @"
+                UPDATE dbo.[SubscriptionType]
+                   SET [Название]          = @name,
+                       [Описание]          = @desc,
+                       [Цена]              = @price,
+                       [Длительность_дней] = @days
+                 WHERE [ID типа подписки] = @id";
+            try
+            {
+                using (var conn = new SqlConnection(StringConnection))
+                using (var cmd = new SqlCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@id", typeId);
+                    cmd.Parameters.AddWithValue("@name", name);
+                    cmd.Parameters.AddWithValue("@desc", (object)description ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@price", price);
+                    cmd.Parameters.AddWithValue("@days", durationDays);
+                    conn.Open();
+                    return cmd.ExecuteNonQuery() > 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка UpdateSubscriptionType: {ex.Message}", "Ошибка БД",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+        }
+
+        /// <summary>Удалить тип подписки (физически)</summary>
+        public bool DeleteSubscriptionType(int typeId)
+        {
+            const string sql = @"
+                DELETE FROM dbo.[SubscriptionType]
+                 WHERE [ID типа подписки] = @id";
+            try
+            {
+                using (var conn = new SqlConnection(StringConnection))
+                using (var cmd = new SqlCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@id", typeId);
+                    conn.Open();
+                    return cmd.ExecuteNonQuery() > 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка DeleteSubscriptionType: {ex.Message}", "Ошибка БД",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+        }
     }
 }
+

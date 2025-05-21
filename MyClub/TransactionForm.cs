@@ -155,7 +155,5 @@ namespace MyClub
                 mainForm.OpenForm(new Finance());
             }
         }
-
-        
     }
 }

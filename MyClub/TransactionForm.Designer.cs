@@ -52,11 +52,11 @@
             this.datePicker.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(42)))), ((int)(((byte)(58)))));
             this.datePicker.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.datePicker.Format = System.Windows.Forms.DateTimePickerFormat.Long;
-            this.datePicker.Location = new System.Drawing.Point(147, 95);
+            this.datePicker.Location = new System.Drawing.Point(208, 311);
             this.datePicker.MaxDate = new System.DateTime(9998, 12, 31, 0, 0, 0, 0);
             this.datePicker.MinDate = new System.DateTime(1753, 1, 1, 0, 0, 0, 0);
             this.datePicker.Name = "datePicker";
-            this.datePicker.Size = new System.Drawing.Size(128, 36);
+            this.datePicker.Size = new System.Drawing.Size(300, 36);
             this.datePicker.TabIndex = 0;
             this.datePicker.Value = new System.DateTime(2025, 5, 11, 19, 35, 49, 772);
             // 
@@ -71,9 +71,9 @@
             this.comboOperation.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.comboOperation.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(88)))), ((int)(((byte)(112)))));
             this.comboOperation.ItemHeight = 30;
-            this.comboOperation.Location = new System.Drawing.Point(292, 95);
+            this.comboOperation.Location = new System.Drawing.Point(208, 245);
             this.comboOperation.Name = "comboOperation";
-            this.comboOperation.Size = new System.Drawing.Size(150, 36);
+            this.comboOperation.Size = new System.Drawing.Size(300, 36);
             this.comboOperation.TabIndex = 1;
             // 
             // guna2GroupBox1
@@ -100,12 +100,13 @@
             this.guna2GroupBox1.CustomBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(42)))), ((int)(((byte)(58)))));
             this.guna2GroupBox1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.guna2GroupBox1.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.guna2GroupBox1.Location = new System.Drawing.Point(83, 148);
+            this.guna2GroupBox1.Location = new System.Drawing.Point(83, 27);
             this.guna2GroupBox1.Name = "guna2GroupBox1";
-            this.guna2GroupBox1.Size = new System.Drawing.Size(729, 400);
+            this.guna2GroupBox1.Size = new System.Drawing.Size(730, 650);
             this.guna2GroupBox1.TabIndex = 13;
-            this.guna2GroupBox1.Text = "Личные данные";
+            this.guna2GroupBox1.Text = "Редактор транзакций";
             this.guna2GroupBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+
             // 
             // btnCancel
             // 
@@ -119,7 +120,7 @@
             this.btnCancel.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(42)))), ((int)(((byte)(58)))));
             this.btnCancel.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.btnCancel.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btnCancel.Location = new System.Drawing.Point(379, 350);
+            this.btnCancel.Location = new System.Drawing.Point(376, 574);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(244, 45);
             this.btnCancel.TabIndex = 13;
@@ -132,7 +133,7 @@
             this.label7.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.label7.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label7.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label7.Location = new System.Drawing.Point(299, 140);
+            this.label7.Location = new System.Drawing.Point(205, 153);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(98, 17);
             this.label7.TabIndex = 12;
@@ -152,12 +153,13 @@
             this.comboUser.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
             this.comboUser.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.comboUser.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.comboUser.Location = new System.Drawing.Point(302, 160);
+            this.comboUser.Location = new System.Drawing.Point(208, 173);
             this.comboUser.Name = "comboUser";
             this.comboUser.PlaceholderText = "";
             this.comboUser.SelectedText = "";
-            this.comboUser.Size = new System.Drawing.Size(140, 36);
+            this.comboUser.Size = new System.Drawing.Size(300, 37);
             this.comboUser.TabIndex = 11;
+
             // 
             // btnSave
             // 
@@ -171,7 +173,7 @@
             this.btnSave.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(42)))), ((int)(((byte)(58)))));
             this.btnSave.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.btnSave.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btnSave.Location = new System.Drawing.Point(107, 350);
+            this.btnSave.Location = new System.Drawing.Point(104, 574);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(244, 45);
             this.btnSave.TabIndex = 10;
@@ -184,11 +186,12 @@
             this.label5.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.label5.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label5.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label5.Location = new System.Drawing.Point(144, 140);
+            this.label5.Location = new System.Drawing.Point(205, 81);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(91, 17);
             this.label5.TabIndex = 9;
             this.label5.Text = "TransactionId";
+
             // 
             // transactionId
             // 
@@ -204,12 +207,13 @@
             this.transactionId.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
             this.transactionId.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.transactionId.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.transactionId.Location = new System.Drawing.Point(147, 160);
+            this.transactionId.Location = new System.Drawing.Point(208, 101);
             this.transactionId.Name = "transactionId";
             this.transactionId.PlaceholderText = "";
             this.transactionId.SelectedText = "";
-            this.transactionId.Size = new System.Drawing.Size(140, 36);
+            this.transactionId.Size = new System.Drawing.Size(300, 36);
             this.transactionId.TabIndex = 8;
+
             // 
             // label6
             // 
@@ -217,7 +221,7 @@
             this.label6.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.label6.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label6.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label6.Location = new System.Drawing.Point(144, 212);
+            this.label6.Location = new System.Drawing.Point(205, 438);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(96, 17);
             this.label6.TabIndex = 7;
@@ -237,11 +241,11 @@
             this.txtComment.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
             this.txtComment.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.txtComment.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.txtComment.Location = new System.Drawing.Point(147, 232);
+            this.txtComment.Location = new System.Drawing.Point(208, 458);
             this.txtComment.Name = "txtComment";
             this.txtComment.PlaceholderText = "";
             this.txtComment.SelectedText = "";
-            this.txtComment.Size = new System.Drawing.Size(456, 36);
+            this.txtComment.Size = new System.Drawing.Size(300, 36);
             this.txtComment.TabIndex = 6;
             // 
             // label3
@@ -250,11 +254,12 @@
             this.label3.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.label3.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label3.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label3.Location = new System.Drawing.Point(450, 75);
+            this.label3.Location = new System.Drawing.Point(205, 367);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(50, 17);
             this.label3.TabIndex = 5;
             this.label3.Text = "Сумма";
+
             // 
             // numAmount
             // 
@@ -270,12 +275,13 @@
             this.numAmount.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
             this.numAmount.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.numAmount.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.numAmount.Location = new System.Drawing.Point(453, 95);
+            this.numAmount.Location = new System.Drawing.Point(208, 387);
             this.numAmount.Name = "numAmount";
             this.numAmount.PlaceholderText = "";
             this.numAmount.SelectedText = "";
-            this.numAmount.Size = new System.Drawing.Size(150, 36);
+            this.numAmount.Size = new System.Drawing.Size(300, 36);
             this.numAmount.TabIndex = 4;
+
             // 
             // label2
             // 
@@ -283,11 +289,12 @@
             this.label2.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.label2.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label2.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label2.Location = new System.Drawing.Point(289, 75);
+            this.label2.Location = new System.Drawing.Point(205, 225);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(72, 17);
             this.label2.TabIndex = 3;
             this.label2.Text = "Категория";
+
             // 
             // label1
             // 
@@ -295,7 +302,7 @@
             this.label1.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.label1.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label1.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label1.Location = new System.Drawing.Point(144, 75);
+            this.label1.Location = new System.Drawing.Point(205, 291);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(38, 17);
             this.label1.TabIndex = 1;
