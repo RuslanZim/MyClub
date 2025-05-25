@@ -38,27 +38,12 @@ namespace MyClub
             }
         }
 
-        
 
         private void guna2CircleButton1_Click_1(object sender, EventArgs e)
         {
             Application.Exit();
         }
 
-        private void guna2TextBox1_TextChanged(object sender, EventArgs e)//логин
-        {
-
-        }
-
-        private void guna2TextBox2_TextChanged(object sender, EventArgs e)//пароль
-        {
-
-        }
-
-        private void guna2TextBox3_TextChanged(object sender, EventArgs e)//повтор пароля
-        {
-
-        }
 
         private void guna2CheckBox1_CheckedChanged(object sender, EventArgs e)//кнопка показать пароль
         {

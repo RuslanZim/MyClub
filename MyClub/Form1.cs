@@ -42,8 +42,8 @@ namespace MyClub
             childForm.TopLevel = false;
             childForm.FormBorderStyle = FormBorderStyle.None;
             childForm.Dock = DockStyle.Fill;
-            panel3.Controls.Add(childForm);
-            panel3.Tag = childForm;
+            ActiveMdiChild.Controls.Add(childForm);
+            ActiveMdiChild.Tag = childForm;
             childForm.BringToFront();
             childForm.Show();
         }
@@ -55,21 +55,21 @@ namespace MyClub
             button.IconColor = foreColor;
         }
 
-        private void iconButton1_Click(object sender, EventArgs e)
+        private void btnProfile_Click(object sender, EventArgs e)
         {
             IconButton activeButton= (IconButton)sender;
             SetButtonColors(activeButton, activeBackgrountColor, activeForegrountColor);
 
             leftPanel1.Visible = true;
 
-            SetButtonColors(iconButton2, defaultBackgrountColor, defaultForegrountColor);
-            SetButtonColors(iconButton3, defaultBackgrountColor, defaultForegrountColor);
-            SetButtonColors(iconButton4, defaultBackgrountColor, defaultForegrountColor);
-            SetButtonColors(iconButton5, defaultBackgrountColor, defaultForegrountColor);
-            SetButtonColors(iconButton6, defaultBackgrountColor, defaultForegrountColor);
-            SetButtonColors(iconButton7, defaultBackgrountColor, defaultForegrountColor);
-            SetButtonColors(iconButton8, defaultBackgrountColor, defaultForegrountColor);
-            SetButtonColors(iconButton9, defaultBackgrountColor, defaultForegrountColor);
+            SetButtonColors(btnUsers, defaultBackgrountColor, defaultForegrountColor);
+            SetButtonColors(btnSections, defaultBackgrountColor, defaultForegrountColor);
+            SetButtonColors(btnTimetable, defaultBackgrountColor, defaultForegrountColor);
+            SetButtonColors(btnFinance, defaultBackgrountColor, defaultForegrountColor);
+            SetButtonColors(btnInventory, defaultBackgrountColor, defaultForegrountColor);
+            SetButtonColors(btnNotifications, defaultBackgrountColor, defaultForegrountColor);
+            SetButtonColors(btnReports, defaultBackgrountColor, defaultForegrountColor);
+            SetButtonColors(btnSettings, defaultBackgrountColor, defaultForegrountColor);
 
             leftPanel2.Visible = false;
             leftPanel3.Visible = false;
@@ -83,21 +83,21 @@ namespace MyClub
             OpenForm(new Profile());
         }
 
-        private void iconButton2_Click(object sender, EventArgs e)
+        private void btnUsers_Click(object sender, EventArgs e)
         {
             IconButton activeButton = (IconButton)sender;
             SetButtonColors(activeButton, activeBackgrountColor, activeForegrountColor);
 
             leftPanel2.Visible = true;
 
-            SetButtonColors(iconButton1, defaultBackgrountColor, defaultForegrountColor);
-            SetButtonColors(iconButton3, defaultBackgrountColor, defaultForegrountColor);
-            SetButtonColors(iconButton4, defaultBackgrountColor, defaultForegrountColor);
-            SetButtonColors(iconButton5, defaultBackgrountColor, defaultForegrountColor);
-            SetButtonColors(iconButton6, defaultBackgrountColor, defaultForegrountColor);
-            SetButtonColors(iconButton7, defaultBackgrountColor, defaultForegrountColor);
-            SetButtonColors(iconButton8, defaultBackgrountColor, defaultForegrountColor);
-            SetButtonColors(iconButton9, defaultBackgrountColor, defaultForegrountColor);
+            SetButtonColors(btnProfile, defaultBackgrountColor, defaultForegrountColor);
+            SetButtonColors(btnSections, defaultBackgrountColor, defaultForegrountColor);
+            SetButtonColors(btnTimetable, defaultBackgrountColor, defaultForegrountColor);
+            SetButtonColors(btnFinance, defaultBackgrountColor, defaultForegrountColor);
+            SetButtonColors(btnInventory, defaultBackgrountColor, defaultForegrountColor);
+            SetButtonColors(btnNotifications, defaultBackgrountColor, defaultForegrountColor);
+            SetButtonColors(btnReports, defaultBackgrountColor, defaultForegrountColor);
+            SetButtonColors(btnSettings, defaultBackgrountColor, defaultForegrountColor);
 
             leftPanel1.Visible = false;
             leftPanel3.Visible = false;
@@ -111,21 +111,21 @@ namespace MyClub
             OpenForm(new Users());
         }
 
-        private void iconButton3_Click(object sender, EventArgs e)
+        private void btnSections_Click(object sender, EventArgs e)
         {
             IconButton activeButton = (IconButton)sender;
             SetButtonColors(activeButton, activeBackgrountColor, activeForegrountColor);
 
             leftPanel3.Visible = true;
 
-            SetButtonColors(iconButton1, defaultBackgrountColor, defaultForegrountColor);
-            SetButtonColors(iconButton2, defaultBackgrountColor, defaultForegrountColor);
-            SetButtonColors(iconButton4, defaultBackgrountColor, defaultForegrountColor);
-            SetButtonColors(iconButton5, defaultBackgrountColor, defaultForegrountColor);
-            SetButtonColors(iconButton6, defaultBackgrountColor, defaultForegrountColor);
-            SetButtonColors(iconButton7, defaultBackgrountColor, defaultForegrountColor);
-            SetButtonColors(iconButton8, defaultBackgrountColor, defaultForegrountColor);
-            SetButtonColors(iconButton9, defaultBackgrountColor, defaultForegrountColor);
+            SetButtonColors(btnProfile, defaultBackgrountColor, defaultForegrountColor);
+            SetButtonColors(btnUsers, defaultBackgrountColor, defaultForegrountColor);
+            SetButtonColors(btnTimetable, defaultBackgrountColor, defaultForegrountColor);
+            SetButtonColors(btnFinance, defaultBackgrountColor, defaultForegrountColor);
+            SetButtonColors(btnInventory, defaultBackgrountColor, defaultForegrountColor);
+            SetButtonColors(btnNotifications, defaultBackgrountColor, defaultForegrountColor);
+            SetButtonColors(btnReports, defaultBackgrountColor, defaultForegrountColor);
+            SetButtonColors(btnSettings, defaultBackgrountColor, defaultForegrountColor);
 
             leftPanel1.Visible = false;
             leftPanel2.Visible = false;
@@ -139,21 +139,21 @@ namespace MyClub
             OpenForm(new Sections());
         }
 
-        private void iconButton4_Click(object sender, EventArgs e)
+        private void btnTimetable_Click(object sender, EventArgs e)
         {
             IconButton activeButton = (IconButton)sender;
             SetButtonColors(activeButton, activeBackgrountColor, activeForegrountColor);
 
             leftPanel4.Visible = true;
 
-            SetButtonColors(iconButton1, defaultBackgrountColor, defaultForegrountColor);
-            SetButtonColors(iconButton2, defaultBackgrountColor, defaultForegrountColor);
-            SetButtonColors(iconButton3, defaultBackgrountColor, defaultForegrountColor);
-            SetButtonColors(iconButton5, defaultBackgrountColor, defaultForegrountColor);
-            SetButtonColors(iconButton6, defaultBackgrountColor, defaultForegrountColor);
-            SetButtonColors(iconButton7, defaultBackgrountColor, defaultForegrountColor);
-            SetButtonColors(iconButton8, defaultBackgrountColor, defaultForegrountColor);
-            SetButtonColors(iconButton9, defaultBackgrountColor, defaultForegrountColor);
+            SetButtonColors(btnProfile, defaultBackgrountColor, defaultForegrountColor);
+            SetButtonColors(btnUsers, defaultBackgrountColor, defaultForegrountColor);
+            SetButtonColors(btnSections, defaultBackgrountColor, defaultForegrountColor);
+            SetButtonColors(btnFinance, defaultBackgrountColor, defaultForegrountColor);
+            SetButtonColors(btnInventory, defaultBackgrountColor, defaultForegrountColor);
+            SetButtonColors(btnNotifications, defaultBackgrountColor, defaultForegrountColor);
+            SetButtonColors(btnReports, defaultBackgrountColor, defaultForegrountColor);
+            SetButtonColors(btnSettings, defaultBackgrountColor, defaultForegrountColor);
 
             leftPanel1.Visible = false;
             leftPanel2.Visible = false;
@@ -167,21 +167,21 @@ namespace MyClub
             OpenForm(new Timetable());
         }
 
-        private void iconButton5_Click(object sender, EventArgs e)
+        private void btnFinance_Click(object sender, EventArgs e)
         {
             IconButton activeButton = (IconButton)sender;
             SetButtonColors(activeButton, activeBackgrountColor, activeForegrountColor);
 
             leftPanel5.Visible = true;
 
-            SetButtonColors(iconButton1, defaultBackgrountColor, defaultForegrountColor);
-            SetButtonColors(iconButton2, defaultBackgrountColor, defaultForegrountColor);
-            SetButtonColors(iconButton3, defaultBackgrountColor, defaultForegrountColor);
-            SetButtonColors(iconButton4, defaultBackgrountColor, defaultForegrountColor);
-            SetButtonColors(iconButton6, defaultBackgrountColor, defaultForegrountColor);
-            SetButtonColors(iconButton7, defaultBackgrountColor, defaultForegrountColor);
-            SetButtonColors(iconButton8, defaultBackgrountColor, defaultForegrountColor);
-            SetButtonColors(iconButton9, defaultBackgrountColor, defaultForegrountColor);
+            SetButtonColors(btnProfile, defaultBackgrountColor, defaultForegrountColor);
+            SetButtonColors(btnUsers, defaultBackgrountColor, defaultForegrountColor);
+            SetButtonColors(btnSections, defaultBackgrountColor, defaultForegrountColor);
+            SetButtonColors(btnTimetable, defaultBackgrountColor, defaultForegrountColor);
+            SetButtonColors(btnInventory, defaultBackgrountColor, defaultForegrountColor);
+            SetButtonColors(btnNotifications, defaultBackgrountColor, defaultForegrountColor);
+            SetButtonColors(btnReports, defaultBackgrountColor, defaultForegrountColor);
+            SetButtonColors(btnSettings, defaultBackgrountColor, defaultForegrountColor);
 
             leftPanel1.Visible = false;
             leftPanel2.Visible = false;
@@ -195,21 +195,21 @@ namespace MyClub
             OpenForm(new Finance());
         }
 
-        private void iconButton6_Click(object sender, EventArgs e)
+        private void btnInventory_Click(object sender, EventArgs e)
         {
             IconButton activeButton = (IconButton)sender;
             SetButtonColors(activeButton, activeBackgrountColor, activeForegrountColor);
 
             leftPanel6.Visible = true;
 
-            SetButtonColors(iconButton1, defaultBackgrountColor, defaultForegrountColor);
-            SetButtonColors(iconButton2, defaultBackgrountColor, defaultForegrountColor);
-            SetButtonColors(iconButton3, defaultBackgrountColor, defaultForegrountColor);
-            SetButtonColors(iconButton4, defaultBackgrountColor, defaultForegrountColor);
-            SetButtonColors(iconButton5, defaultBackgrountColor, defaultForegrountColor);
-            SetButtonColors(iconButton7, defaultBackgrountColor, defaultForegrountColor);
-            SetButtonColors(iconButton8, defaultBackgrountColor, defaultForegrountColor);
-            SetButtonColors(iconButton9, defaultBackgrountColor, defaultForegrountColor);
+            SetButtonColors(btnProfile, defaultBackgrountColor, defaultForegrountColor);
+            SetButtonColors(btnUsers, defaultBackgrountColor, defaultForegrountColor);
+            SetButtonColors(btnSections, defaultBackgrountColor, defaultForegrountColor);
+            SetButtonColors(btnTimetable, defaultBackgrountColor, defaultForegrountColor);
+            SetButtonColors(btnFinance, defaultBackgrountColor, defaultForegrountColor);
+            SetButtonColors(btnNotifications, defaultBackgrountColor, defaultForegrountColor);
+            SetButtonColors(btnReports, defaultBackgrountColor, defaultForegrountColor);
+            SetButtonColors(btnSettings, defaultBackgrountColor, defaultForegrountColor);
 
             leftPanel1.Visible = false;
             leftPanel2.Visible = false;
@@ -223,21 +223,21 @@ namespace MyClub
             OpenForm(new Inventory());
         }
 
-        private void iconButton7_Click(object sender, EventArgs e)
+        private void btnNotifications_Click(object sender, EventArgs e)
         {
             IconButton activeButton = (IconButton)sender;
             SetButtonColors(activeButton, activeBackgrountColor, activeForegrountColor);
 
             leftPanel7.Visible = true;
 
-            SetButtonColors(iconButton1, defaultBackgrountColor, defaultForegrountColor);
-            SetButtonColors(iconButton2, defaultBackgrountColor, defaultForegrountColor);
-            SetButtonColors(iconButton3, defaultBackgrountColor, defaultForegrountColor);
-            SetButtonColors(iconButton4, defaultBackgrountColor, defaultForegrountColor);
-            SetButtonColors(iconButton5, defaultBackgrountColor, defaultForegrountColor);
-            SetButtonColors(iconButton6, defaultBackgrountColor, defaultForegrountColor);
-            SetButtonColors(iconButton8, defaultBackgrountColor, defaultForegrountColor);
-            SetButtonColors(iconButton9, defaultBackgrountColor, defaultForegrountColor);
+            SetButtonColors(btnProfile, defaultBackgrountColor, defaultForegrountColor);
+            SetButtonColors(btnUsers, defaultBackgrountColor, defaultForegrountColor);
+            SetButtonColors(btnSections, defaultBackgrountColor, defaultForegrountColor);
+            SetButtonColors(btnTimetable, defaultBackgrountColor, defaultForegrountColor);
+            SetButtonColors(btnFinance, defaultBackgrountColor, defaultForegrountColor);
+            SetButtonColors(btnInventory, defaultBackgrountColor, defaultForegrountColor);
+            SetButtonColors(btnReports, defaultBackgrountColor, defaultForegrountColor);
+            SetButtonColors(btnSettings, defaultBackgrountColor, defaultForegrountColor);
 
             leftPanel1.Visible = false;
             leftPanel2.Visible = false;
@@ -251,21 +251,21 @@ namespace MyClub
             OpenForm(new Notifications());
         }
 
-        private void iconButton8_Click(object sender, EventArgs e)
+        private void btnReports_Click(object sender, EventArgs e)
         {
             IconButton activeButton = (IconButton)sender;
             SetButtonColors(activeButton, activeBackgrountColor, activeForegrountColor);
 
             leftPanel8.Visible = true;
 
-            SetButtonColors(iconButton1, defaultBackgrountColor, defaultForegrountColor);
-            SetButtonColors(iconButton2, defaultBackgrountColor, defaultForegrountColor);
-            SetButtonColors(iconButton3, defaultBackgrountColor, defaultForegrountColor);
-            SetButtonColors(iconButton4, defaultBackgrountColor, defaultForegrountColor);
-            SetButtonColors(iconButton5, defaultBackgrountColor, defaultForegrountColor);
-            SetButtonColors(iconButton6, defaultBackgrountColor, defaultForegrountColor);
-            SetButtonColors(iconButton7, defaultBackgrountColor, defaultForegrountColor);
-            SetButtonColors(iconButton9, defaultBackgrountColor, defaultForegrountColor);
+            SetButtonColors(btnProfile, defaultBackgrountColor, defaultForegrountColor);
+            SetButtonColors(btnUsers, defaultBackgrountColor, defaultForegrountColor);
+            SetButtonColors(btnSections, defaultBackgrountColor, defaultForegrountColor);
+            SetButtonColors(btnTimetable, defaultBackgrountColor, defaultForegrountColor);
+            SetButtonColors(btnFinance, defaultBackgrountColor, defaultForegrountColor);
+            SetButtonColors(btnInventory, defaultBackgrountColor, defaultForegrountColor);
+            SetButtonColors(btnNotifications, defaultBackgrountColor, defaultForegrountColor);
+            SetButtonColors(btnSettings, defaultBackgrountColor, defaultForegrountColor);
 
             leftPanel1.Visible = false;
             leftPanel2.Visible = false;
@@ -279,21 +279,21 @@ namespace MyClub
             OpenForm(new Reports());
         }
 
-        private void iconButton9_Click(object sender, EventArgs e)
+        private void btnSettings_Click(object sender, EventArgs e)
         {
             IconButton activeButton = (IconButton)sender;
             SetButtonColors(activeButton, activeBackgrountColor, activeForegrountColor);
 
             leftPanel9.Visible = true;
 
-            SetButtonColors(iconButton1, defaultBackgrountColor, defaultForegrountColor);
-            SetButtonColors(iconButton2, defaultBackgrountColor, defaultForegrountColor);
-            SetButtonColors(iconButton3, defaultBackgrountColor, defaultForegrountColor);
-            SetButtonColors(iconButton4, defaultBackgrountColor, defaultForegrountColor);
-            SetButtonColors(iconButton5, defaultBackgrountColor, defaultForegrountColor);
-            SetButtonColors(iconButton6, defaultBackgrountColor, defaultForegrountColor);
-            SetButtonColors(iconButton7, defaultBackgrountColor, defaultForegrountColor);
-            SetButtonColors(iconButton8, defaultBackgrountColor, defaultForegrountColor);
+            SetButtonColors(btnProfile, defaultBackgrountColor, defaultForegrountColor);
+            SetButtonColors(btnUsers, defaultBackgrountColor, defaultForegrountColor);
+            SetButtonColors(btnSections, defaultBackgrountColor, defaultForegrountColor);
+            SetButtonColors(btnTimetable, defaultBackgrountColor, defaultForegrountColor);
+            SetButtonColors(btnFinance, defaultBackgrountColor, defaultForegrountColor);
+            SetButtonColors(btnInventory, defaultBackgrountColor, defaultForegrountColor);
+            SetButtonColors(btnNotifications, defaultBackgrountColor, defaultForegrountColor);
+            SetButtonColors(btnReports, defaultBackgrountColor, defaultForegrountColor);
 
             leftPanel1.Visible = false;
             leftPanel2.Visible = false;

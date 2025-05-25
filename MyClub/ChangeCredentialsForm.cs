@@ -92,30 +92,6 @@ namespace MyClub
             this.Close();
         }
 
-        private void guna2Button2_Click(object sender, EventArgs e) //кнопка Отмена
-        {
-            this.Close();
-        }
-
-        private void guna2TextBox1_TextChanged(object sender, EventArgs e)// новый пароль
-        {
-
-        }
-
-        private void guna2TextBox2_TextChanged(object sender, EventArgs e) //подтверждение нового пароля
-        {
-
-        }
-
-        private void guna2TextBox10_TextChanged(object sender, EventArgs e) //логин
-        {
-
-        }
-
-        private void guna2TextBox9_TextChanged(object sender, EventArgs e) //старый пароль
-        {
-
-        }
 
         private void panel1_MouseDown_1(object sender, MouseEventArgs e)
         {

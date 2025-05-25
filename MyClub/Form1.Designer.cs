@@ -37,36 +37,36 @@
             this.iconButton10 = new FontAwesome.Sharp.IconButton();
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel21 = new System.Windows.Forms.Panel();
-            this.iconButton9 = new FontAwesome.Sharp.IconButton();
+            this.btnSettings = new FontAwesome.Sharp.IconButton();
             this.leftPanel9 = new System.Windows.Forms.Panel();
             this.panel19 = new System.Windows.Forms.Panel();
-            this.iconButton8 = new FontAwesome.Sharp.IconButton();
+            this.btnReports = new FontAwesome.Sharp.IconButton();
             this.leftPanel8 = new System.Windows.Forms.Panel();
             this.panel17 = new System.Windows.Forms.Panel();
-            this.iconButton7 = new FontAwesome.Sharp.IconButton();
+            this.btnNotifications = new FontAwesome.Sharp.IconButton();
             this.leftPanel7 = new System.Windows.Forms.Panel();
             this.panel15 = new System.Windows.Forms.Panel();
-            this.iconButton6 = new FontAwesome.Sharp.IconButton();
+            this.btnInventory = new FontAwesome.Sharp.IconButton();
             this.leftPanel6 = new System.Windows.Forms.Panel();
             this.panel13 = new System.Windows.Forms.Panel();
-            this.iconButton5 = new FontAwesome.Sharp.IconButton();
+            this.btnFinance = new FontAwesome.Sharp.IconButton();
             this.leftPanel5 = new System.Windows.Forms.Panel();
             this.panel11 = new System.Windows.Forms.Panel();
-            this.iconButton4 = new FontAwesome.Sharp.IconButton();
+            this.btnTimetable = new FontAwesome.Sharp.IconButton();
             this.leftPanel4 = new System.Windows.Forms.Panel();
             this.panel9 = new System.Windows.Forms.Panel();
-            this.iconButton3 = new FontAwesome.Sharp.IconButton();
+            this.btnSections = new FontAwesome.Sharp.IconButton();
             this.leftPanel3 = new System.Windows.Forms.Panel();
             this.panel7 = new System.Windows.Forms.Panel();
-            this.iconButton2 = new FontAwesome.Sharp.IconButton();
+            this.btnUsers = new FontAwesome.Sharp.IconButton();
             this.leftPanel2 = new System.Windows.Forms.Panel();
             this.panel5 = new System.Windows.Forms.Panel();
-            this.iconButton1 = new FontAwesome.Sharp.IconButton();
+            this.btnProfile = new FontAwesome.Sharp.IconButton();
             this.leftPanel1 = new System.Windows.Forms.Panel();
             this.panel4 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.panel3 = new System.Windows.Forms.Panel();
+            this.ActiveMdiChild = new System.Windows.Forms.Panel();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel21.SuspendLayout();
@@ -190,7 +190,7 @@
             // 
             // panel21
             // 
-            this.panel21.Controls.Add(this.iconButton9);
+            this.panel21.Controls.Add(this.btnSettings);
             this.panel21.Controls.Add(this.leftPanel9);
             this.panel21.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel21.Location = new System.Drawing.Point(0, 672);
@@ -198,26 +198,26 @@
             this.panel21.Size = new System.Drawing.Size(180, 70);
             this.panel21.TabIndex = 8;
             // 
-            // iconButton9
+            // btnSettings
             // 
-            this.iconButton9.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.iconButton9.FlatAppearance.BorderSize = 0;
-            this.iconButton9.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.iconButton9.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.iconButton9.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.iconButton9.IconChar = FontAwesome.Sharp.IconChar.Gears;
-            this.iconButton9.IconColor = System.Drawing.SystemColors.ButtonFace;
-            this.iconButton9.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.iconButton9.IconSize = 40;
-            this.iconButton9.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.iconButton9.Location = new System.Drawing.Point(16, 0);
-            this.iconButton9.Name = "iconButton9";
-            this.iconButton9.Size = new System.Drawing.Size(164, 75);
-            this.iconButton9.TabIndex = 1;
-            this.iconButton9.Text = "Настройки";
-            this.iconButton9.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.iconButton9.UseVisualStyleBackColor = true;
-            this.iconButton9.Click += new System.EventHandler(this.iconButton9_Click);
+            this.btnSettings.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnSettings.FlatAppearance.BorderSize = 0;
+            this.btnSettings.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSettings.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnSettings.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.btnSettings.IconChar = FontAwesome.Sharp.IconChar.Gears;
+            this.btnSettings.IconColor = System.Drawing.SystemColors.ButtonFace;
+            this.btnSettings.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.btnSettings.IconSize = 40;
+            this.btnSettings.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnSettings.Location = new System.Drawing.Point(16, 0);
+            this.btnSettings.Name = "btnSettings";
+            this.btnSettings.Size = new System.Drawing.Size(164, 75);
+            this.btnSettings.TabIndex = 1;
+            this.btnSettings.Text = "Настройки";
+            this.btnSettings.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnSettings.UseVisualStyleBackColor = true;
+            this.btnSettings.Click += new System.EventHandler(this.btnSettings_Click);
             // 
             // leftPanel9
             // 
@@ -230,7 +230,7 @@
             // 
             // panel19
             // 
-            this.panel19.Controls.Add(this.iconButton8);
+            this.panel19.Controls.Add(this.btnReports);
             this.panel19.Controls.Add(this.leftPanel8);
             this.panel19.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel19.Location = new System.Drawing.Point(0, 602);
@@ -238,26 +238,26 @@
             this.panel19.Size = new System.Drawing.Size(180, 70);
             this.panel19.TabIndex = 7;
             // 
-            // iconButton8
+            // btnReports
             // 
-            this.iconButton8.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.iconButton8.FlatAppearance.BorderSize = 0;
-            this.iconButton8.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.iconButton8.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.iconButton8.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.iconButton8.IconChar = FontAwesome.Sharp.IconChar.File;
-            this.iconButton8.IconColor = System.Drawing.SystemColors.ButtonFace;
-            this.iconButton8.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.iconButton8.IconSize = 40;
-            this.iconButton8.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.iconButton8.Location = new System.Drawing.Point(16, 0);
-            this.iconButton8.Name = "iconButton8";
-            this.iconButton8.Size = new System.Drawing.Size(164, 75);
-            this.iconButton8.TabIndex = 1;
-            this.iconButton8.Text = "Отчёты";
-            this.iconButton8.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.iconButton8.UseVisualStyleBackColor = true;
-            this.iconButton8.Click += new System.EventHandler(this.iconButton8_Click);
+            this.btnReports.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnReports.FlatAppearance.BorderSize = 0;
+            this.btnReports.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnReports.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnReports.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.btnReports.IconChar = FontAwesome.Sharp.IconChar.File;
+            this.btnReports.IconColor = System.Drawing.SystemColors.ButtonFace;
+            this.btnReports.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.btnReports.IconSize = 40;
+            this.btnReports.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnReports.Location = new System.Drawing.Point(16, 0);
+            this.btnReports.Name = "btnReports";
+            this.btnReports.Size = new System.Drawing.Size(164, 75);
+            this.btnReports.TabIndex = 1;
+            this.btnReports.Text = "Отчёты";
+            this.btnReports.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnReports.UseVisualStyleBackColor = true;
+            this.btnReports.Click += new System.EventHandler(this.btnReports_Click);
             // 
             // leftPanel8
             // 
@@ -270,7 +270,7 @@
             // 
             // panel17
             // 
-            this.panel17.Controls.Add(this.iconButton7);
+            this.panel17.Controls.Add(this.btnNotifications);
             this.panel17.Controls.Add(this.leftPanel7);
             this.panel17.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel17.Location = new System.Drawing.Point(0, 532);
@@ -278,26 +278,26 @@
             this.panel17.Size = new System.Drawing.Size(180, 70);
             this.panel17.TabIndex = 6;
             // 
-            // iconButton7
+            // btnNotifications
             // 
-            this.iconButton7.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.iconButton7.FlatAppearance.BorderSize = 0;
-            this.iconButton7.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.iconButton7.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.iconButton7.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.iconButton7.IconChar = FontAwesome.Sharp.IconChar.Bell;
-            this.iconButton7.IconColor = System.Drawing.SystemColors.ButtonFace;
-            this.iconButton7.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.iconButton7.IconSize = 40;
-            this.iconButton7.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.iconButton7.Location = new System.Drawing.Point(16, 0);
-            this.iconButton7.Name = "iconButton7";
-            this.iconButton7.Size = new System.Drawing.Size(164, 75);
-            this.iconButton7.TabIndex = 1;
-            this.iconButton7.Text = "Уведомления";
-            this.iconButton7.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.iconButton7.UseVisualStyleBackColor = true;
-            this.iconButton7.Click += new System.EventHandler(this.iconButton7_Click);
+            this.btnNotifications.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnNotifications.FlatAppearance.BorderSize = 0;
+            this.btnNotifications.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnNotifications.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnNotifications.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.btnNotifications.IconChar = FontAwesome.Sharp.IconChar.Bell;
+            this.btnNotifications.IconColor = System.Drawing.SystemColors.ButtonFace;
+            this.btnNotifications.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.btnNotifications.IconSize = 40;
+            this.btnNotifications.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnNotifications.Location = new System.Drawing.Point(16, 0);
+            this.btnNotifications.Name = "btnNotifications";
+            this.btnNotifications.Size = new System.Drawing.Size(164, 75);
+            this.btnNotifications.TabIndex = 1;
+            this.btnNotifications.Text = "Уведомления";
+            this.btnNotifications.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnNotifications.UseVisualStyleBackColor = true;
+            this.btnNotifications.Click += new System.EventHandler(this.btnNotifications_Click);
             // 
             // leftPanel7
             // 
@@ -310,7 +310,7 @@
             // 
             // panel15
             // 
-            this.panel15.Controls.Add(this.iconButton6);
+            this.panel15.Controls.Add(this.btnInventory);
             this.panel15.Controls.Add(this.leftPanel6);
             this.panel15.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel15.Location = new System.Drawing.Point(0, 462);
@@ -318,26 +318,26 @@
             this.panel15.Size = new System.Drawing.Size(180, 70);
             this.panel15.TabIndex = 5;
             // 
-            // iconButton6
+            // btnInventory
             // 
-            this.iconButton6.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.iconButton6.FlatAppearance.BorderSize = 0;
-            this.iconButton6.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.iconButton6.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.iconButton6.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.iconButton6.IconChar = FontAwesome.Sharp.IconChar.Dumbbell;
-            this.iconButton6.IconColor = System.Drawing.SystemColors.ButtonFace;
-            this.iconButton6.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.iconButton6.IconSize = 40;
-            this.iconButton6.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.iconButton6.Location = new System.Drawing.Point(16, 0);
-            this.iconButton6.Name = "iconButton6";
-            this.iconButton6.Size = new System.Drawing.Size(164, 75);
-            this.iconButton6.TabIndex = 1;
-            this.iconButton6.Text = "Инвентарь";
-            this.iconButton6.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.iconButton6.UseVisualStyleBackColor = true;
-            this.iconButton6.Click += new System.EventHandler(this.iconButton6_Click);
+            this.btnInventory.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnInventory.FlatAppearance.BorderSize = 0;
+            this.btnInventory.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnInventory.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnInventory.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.btnInventory.IconChar = FontAwesome.Sharp.IconChar.Dumbbell;
+            this.btnInventory.IconColor = System.Drawing.SystemColors.ButtonFace;
+            this.btnInventory.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.btnInventory.IconSize = 40;
+            this.btnInventory.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnInventory.Location = new System.Drawing.Point(16, 0);
+            this.btnInventory.Name = "btnInventory";
+            this.btnInventory.Size = new System.Drawing.Size(164, 75);
+            this.btnInventory.TabIndex = 1;
+            this.btnInventory.Text = "Инвентарь";
+            this.btnInventory.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnInventory.UseVisualStyleBackColor = true;
+            this.btnInventory.Click += new System.EventHandler(this.btnInventory_Click);
             // 
             // leftPanel6
             // 
@@ -350,7 +350,7 @@
             // 
             // panel13
             // 
-            this.panel13.Controls.Add(this.iconButton5);
+            this.panel13.Controls.Add(this.btnFinance);
             this.panel13.Controls.Add(this.leftPanel5);
             this.panel13.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel13.Location = new System.Drawing.Point(0, 392);
@@ -358,26 +358,26 @@
             this.panel13.Size = new System.Drawing.Size(180, 70);
             this.panel13.TabIndex = 4;
             // 
-            // iconButton5
+            // btnFinance
             // 
-            this.iconButton5.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.iconButton5.FlatAppearance.BorderSize = 0;
-            this.iconButton5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.iconButton5.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.iconButton5.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.iconButton5.IconChar = FontAwesome.Sharp.IconChar.MoneyBillTransfer;
-            this.iconButton5.IconColor = System.Drawing.SystemColors.ButtonFace;
-            this.iconButton5.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.iconButton5.IconSize = 40;
-            this.iconButton5.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.iconButton5.Location = new System.Drawing.Point(16, 0);
-            this.iconButton5.Name = "iconButton5";
-            this.iconButton5.Size = new System.Drawing.Size(164, 75);
-            this.iconButton5.TabIndex = 1;
-            this.iconButton5.Text = "Финансы";
-            this.iconButton5.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.iconButton5.UseVisualStyleBackColor = true;
-            this.iconButton5.Click += new System.EventHandler(this.iconButton5_Click);
+            this.btnFinance.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnFinance.FlatAppearance.BorderSize = 0;
+            this.btnFinance.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnFinance.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnFinance.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.btnFinance.IconChar = FontAwesome.Sharp.IconChar.MoneyBillTransfer;
+            this.btnFinance.IconColor = System.Drawing.SystemColors.ButtonFace;
+            this.btnFinance.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.btnFinance.IconSize = 40;
+            this.btnFinance.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnFinance.Location = new System.Drawing.Point(16, 0);
+            this.btnFinance.Name = "btnFinance";
+            this.btnFinance.Size = new System.Drawing.Size(164, 75);
+            this.btnFinance.TabIndex = 1;
+            this.btnFinance.Text = "Финансы";
+            this.btnFinance.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnFinance.UseVisualStyleBackColor = true;
+            this.btnFinance.Click += new System.EventHandler(this.btnFinance_Click);
             // 
             // leftPanel5
             // 
@@ -390,7 +390,7 @@
             // 
             // panel11
             // 
-            this.panel11.Controls.Add(this.iconButton4);
+            this.panel11.Controls.Add(this.btnTimetable);
             this.panel11.Controls.Add(this.leftPanel4);
             this.panel11.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel11.Location = new System.Drawing.Point(0, 322);
@@ -398,26 +398,26 @@
             this.panel11.Size = new System.Drawing.Size(180, 70);
             this.panel11.TabIndex = 3;
             // 
-            // iconButton4
+            // btnTimetable
             // 
-            this.iconButton4.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.iconButton4.FlatAppearance.BorderSize = 0;
-            this.iconButton4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.iconButton4.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.iconButton4.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.iconButton4.IconChar = FontAwesome.Sharp.IconChar.CalendarWeek;
-            this.iconButton4.IconColor = System.Drawing.SystemColors.ButtonFace;
-            this.iconButton4.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.iconButton4.IconSize = 40;
-            this.iconButton4.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.iconButton4.Location = new System.Drawing.Point(16, 0);
-            this.iconButton4.Name = "iconButton4";
-            this.iconButton4.Size = new System.Drawing.Size(164, 75);
-            this.iconButton4.TabIndex = 1;
-            this.iconButton4.Text = "Расписание";
-            this.iconButton4.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.iconButton4.UseVisualStyleBackColor = true;
-            this.iconButton4.Click += new System.EventHandler(this.iconButton4_Click);
+            this.btnTimetable.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnTimetable.FlatAppearance.BorderSize = 0;
+            this.btnTimetable.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnTimetable.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnTimetable.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.btnTimetable.IconChar = FontAwesome.Sharp.IconChar.CalendarWeek;
+            this.btnTimetable.IconColor = System.Drawing.SystemColors.ButtonFace;
+            this.btnTimetable.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.btnTimetable.IconSize = 40;
+            this.btnTimetable.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnTimetable.Location = new System.Drawing.Point(16, 0);
+            this.btnTimetable.Name = "btnTimetable";
+            this.btnTimetable.Size = new System.Drawing.Size(164, 75);
+            this.btnTimetable.TabIndex = 1;
+            this.btnTimetable.Text = "Расписание";
+            this.btnTimetable.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnTimetable.UseVisualStyleBackColor = true;
+            this.btnTimetable.Click += new System.EventHandler(this.btnTimetable_Click);
             // 
             // leftPanel4
             // 
@@ -430,7 +430,7 @@
             // 
             // panel9
             // 
-            this.panel9.Controls.Add(this.iconButton3);
+            this.panel9.Controls.Add(this.btnSections);
             this.panel9.Controls.Add(this.leftPanel3);
             this.panel9.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel9.Location = new System.Drawing.Point(0, 252);
@@ -438,26 +438,26 @@
             this.panel9.Size = new System.Drawing.Size(180, 70);
             this.panel9.TabIndex = 2;
             // 
-            // iconButton3
+            // btnSections
             // 
-            this.iconButton3.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.iconButton3.FlatAppearance.BorderSize = 0;
-            this.iconButton3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.iconButton3.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.iconButton3.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.iconButton3.IconChar = FontAwesome.Sharp.IconChar.Trophy;
-            this.iconButton3.IconColor = System.Drawing.SystemColors.ButtonFace;
-            this.iconButton3.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.iconButton3.IconSize = 40;
-            this.iconButton3.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.iconButton3.Location = new System.Drawing.Point(16, 0);
-            this.iconButton3.Name = "iconButton3";
-            this.iconButton3.Size = new System.Drawing.Size(164, 75);
-            this.iconButton3.TabIndex = 1;
-            this.iconButton3.Text = "Секции";
-            this.iconButton3.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.iconButton3.UseVisualStyleBackColor = true;
-            this.iconButton3.Click += new System.EventHandler(this.iconButton3_Click);
+            this.btnSections.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnSections.FlatAppearance.BorderSize = 0;
+            this.btnSections.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSections.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnSections.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.btnSections.IconChar = FontAwesome.Sharp.IconChar.Trophy;
+            this.btnSections.IconColor = System.Drawing.SystemColors.ButtonFace;
+            this.btnSections.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.btnSections.IconSize = 40;
+            this.btnSections.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnSections.Location = new System.Drawing.Point(16, 0);
+            this.btnSections.Name = "btnSections";
+            this.btnSections.Size = new System.Drawing.Size(164, 75);
+            this.btnSections.TabIndex = 1;
+            this.btnSections.Text = "Секции";
+            this.btnSections.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnSections.UseVisualStyleBackColor = true;
+            this.btnSections.Click += new System.EventHandler(this.btnSections_Click);
             // 
             // leftPanel3
             // 
@@ -470,7 +470,7 @@
             // 
             // panel7
             // 
-            this.panel7.Controls.Add(this.iconButton2);
+            this.panel7.Controls.Add(this.btnUsers);
             this.panel7.Controls.Add(this.leftPanel2);
             this.panel7.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel7.Location = new System.Drawing.Point(0, 182);
@@ -478,26 +478,26 @@
             this.panel7.Size = new System.Drawing.Size(180, 70);
             this.panel7.TabIndex = 1;
             // 
-            // iconButton2
+            // btnUsers
             // 
-            this.iconButton2.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.iconButton2.FlatAppearance.BorderSize = 0;
-            this.iconButton2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.iconButton2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.iconButton2.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.iconButton2.IconChar = FontAwesome.Sharp.IconChar.Users;
-            this.iconButton2.IconColor = System.Drawing.SystemColors.ButtonFace;
-            this.iconButton2.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.iconButton2.IconSize = 40;
-            this.iconButton2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.iconButton2.Location = new System.Drawing.Point(16, 0);
-            this.iconButton2.Name = "iconButton2";
-            this.iconButton2.Size = new System.Drawing.Size(164, 75);
-            this.iconButton2.TabIndex = 1;
-            this.iconButton2.Text = "Пользователи";
-            this.iconButton2.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.iconButton2.UseVisualStyleBackColor = true;
-            this.iconButton2.Click += new System.EventHandler(this.iconButton2_Click);
+            this.btnUsers.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnUsers.FlatAppearance.BorderSize = 0;
+            this.btnUsers.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnUsers.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnUsers.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.btnUsers.IconChar = FontAwesome.Sharp.IconChar.Users;
+            this.btnUsers.IconColor = System.Drawing.SystemColors.ButtonFace;
+            this.btnUsers.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.btnUsers.IconSize = 40;
+            this.btnUsers.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnUsers.Location = new System.Drawing.Point(16, 0);
+            this.btnUsers.Name = "btnUsers";
+            this.btnUsers.Size = new System.Drawing.Size(164, 75);
+            this.btnUsers.TabIndex = 1;
+            this.btnUsers.Text = "Пользователи";
+            this.btnUsers.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnUsers.UseVisualStyleBackColor = true;
+            this.btnUsers.Click += new System.EventHandler(this.btnUsers_Click);
             // 
             // leftPanel2
             // 
@@ -510,7 +510,7 @@
             // 
             // panel5
             // 
-            this.panel5.Controls.Add(this.iconButton1);
+            this.panel5.Controls.Add(this.btnProfile);
             this.panel5.Controls.Add(this.leftPanel1);
             this.panel5.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel5.Location = new System.Drawing.Point(0, 112);
@@ -518,26 +518,26 @@
             this.panel5.Size = new System.Drawing.Size(180, 70);
             this.panel5.TabIndex = 0;
             // 
-            // iconButton1
+            // btnProfile
             // 
-            this.iconButton1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.iconButton1.FlatAppearance.BorderSize = 0;
-            this.iconButton1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.iconButton1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.iconButton1.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.iconButton1.IconChar = FontAwesome.Sharp.IconChar.HomeLg;
-            this.iconButton1.IconColor = System.Drawing.SystemColors.ButtonFace;
-            this.iconButton1.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.iconButton1.IconSize = 40;
-            this.iconButton1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.iconButton1.Location = new System.Drawing.Point(16, 0);
-            this.iconButton1.Name = "iconButton1";
-            this.iconButton1.Size = new System.Drawing.Size(164, 75);
-            this.iconButton1.TabIndex = 1;
-            this.iconButton1.Text = "Профиль";
-            this.iconButton1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.iconButton1.UseVisualStyleBackColor = true;
-            this.iconButton1.Click += new System.EventHandler(this.iconButton1_Click);
+            this.btnProfile.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnProfile.FlatAppearance.BorderSize = 0;
+            this.btnProfile.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnProfile.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnProfile.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.btnProfile.IconChar = FontAwesome.Sharp.IconChar.HomeLg;
+            this.btnProfile.IconColor = System.Drawing.SystemColors.ButtonFace;
+            this.btnProfile.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.btnProfile.IconSize = 40;
+            this.btnProfile.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnProfile.Location = new System.Drawing.Point(16, 0);
+            this.btnProfile.Name = "btnProfile";
+            this.btnProfile.Size = new System.Drawing.Size(164, 75);
+            this.btnProfile.TabIndex = 1;
+            this.btnProfile.Text = "Профиль";
+            this.btnProfile.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnProfile.UseVisualStyleBackColor = true;
+            this.btnProfile.Click += new System.EventHandler(this.btnProfile_Click);
             // 
             // leftPanel1
             // 
@@ -580,21 +580,21 @@
             this.pictureBox1.TabIndex = 2;
             this.pictureBox1.TabStop = false;
             // 
-            // panel3
+            // ActiveMdiChild
             // 
-            this.panel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(49)))), ((int)(((byte)(69)))), ((int)(((byte)(96)))));
-            this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel3.Location = new System.Drawing.Point(180, 38);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(910, 742);
-            this.panel3.TabIndex = 2;
+            this.ActiveMdiChild.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(49)))), ((int)(((byte)(69)))), ((int)(((byte)(96)))));
+            this.ActiveMdiChild.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ActiveMdiChild.Location = new System.Drawing.Point(180, 38);
+            this.ActiveMdiChild.Name = "ActiveMdiChild";
+            this.ActiveMdiChild.Size = new System.Drawing.Size(910, 742);
+            this.ActiveMdiChild.TabIndex = 2;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1090, 780);
-            this.Controls.Add(this.panel3);
+            this.Controls.Add(this.ActiveMdiChild);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -621,38 +621,38 @@
         #endregion
 
         private Guna.UI2.WinForms.Guna2BorderlessForm guna2BorderlessForm1;
-        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Panel ActiveMdiChild;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Panel panel5;
-        private FontAwesome.Sharp.IconButton iconButton1;
+        private FontAwesome.Sharp.IconButton btnProfile;
         private System.Windows.Forms.Panel leftPanel1;
         private System.Windows.Forms.Panel panel13;
-        private FontAwesome.Sharp.IconButton iconButton5;
+        private FontAwesome.Sharp.IconButton btnFinance;
         private System.Windows.Forms.Panel leftPanel5;
         private System.Windows.Forms.Panel panel11;
-        private FontAwesome.Sharp.IconButton iconButton4;
+        private FontAwesome.Sharp.IconButton btnTimetable;
         private System.Windows.Forms.Panel leftPanel4;
         private System.Windows.Forms.Panel panel9;
-        private FontAwesome.Sharp.IconButton iconButton3;
+        private FontAwesome.Sharp.IconButton btnSections;
         private System.Windows.Forms.Panel leftPanel3;
         private System.Windows.Forms.Panel panel7;
-        private FontAwesome.Sharp.IconButton iconButton2;
+        private FontAwesome.Sharp.IconButton btnUsers;
         private System.Windows.Forms.Panel leftPanel2;
         private System.Windows.Forms.Panel panel21;
-        private FontAwesome.Sharp.IconButton iconButton9;
+        private FontAwesome.Sharp.IconButton btnSettings;
         private System.Windows.Forms.Panel leftPanel9;
         private System.Windows.Forms.Panel panel19;
-        private FontAwesome.Sharp.IconButton iconButton8;
+        private FontAwesome.Sharp.IconButton btnReports;
         private System.Windows.Forms.Panel leftPanel8;
         private System.Windows.Forms.Panel panel17;
-        private FontAwesome.Sharp.IconButton iconButton7;
+        private FontAwesome.Sharp.IconButton btnNotifications;
         private System.Windows.Forms.Panel leftPanel7;
         private System.Windows.Forms.Panel panel15;
-        private FontAwesome.Sharp.IconButton iconButton6;
+        private FontAwesome.Sharp.IconButton btnInventory;
         private System.Windows.Forms.Panel leftPanel6;
         private FontAwesome.Sharp.IconButton iconButton10;
         private FontAwesome.Sharp.IconButton iconButton13;

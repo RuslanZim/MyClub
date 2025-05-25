@@ -9,17 +9,17 @@ namespace MyClub
         public static PersonalData Current { get; set; }
 
         // Данные аутентификации и профиля
-        public int UserId { get; private set; }
-        public string Login { get; private set; }
-        public string Role { get; private set; }
-        public string Password { get; private set; }
-        public string Email { get; private set; }
-        public string LastName { get; private set; }
-        public string FirstName { get; private set; }
-        public string FatherName { get; private set; }
-        public DateTime? DateBirth { get; private set; }
-        public string PhoneNumber { get; private set; }
-        public byte[] Photo { get; private set; }
+        public int UserId { get;  set; }
+        public string Login { get;  set; }
+        public string Role { get;  set; }
+        public string Password { get;  set; }
+        public string Email { get;  set; }
+        public string LastName { get;  set; }
+        public string FirstName { get;  set; }
+        public string FatherName { get;  set; }
+        public DateTime? DateBirth { get;  set; }
+        public string PhoneNumber { get;  set; }
+        public byte[] Photo { get;  set; }
 
 
         /// <summary>

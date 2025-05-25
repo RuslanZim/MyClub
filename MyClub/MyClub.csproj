@@ -99,6 +99,7 @@
       <DependentUpon>ChangeCredentialsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="DB.cs" />
+    <Compile Include="Event.cs" />
     <Compile Include="Finance.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -168,6 +169,12 @@
     <Compile Include="Timetable.Designer.cs">
       <DependentUpon>Timetable.cs</DependentUpon>
     </Compile>
+    <Compile Include="TimetableForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TimetableForm.Designer.cs">
+      <DependentUpon>TimetableForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Transaction.cs" />
     <Compile Include="TransactionForm.cs">
       <SubType>Form</SubType>
@@ -229,6 +236,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Timetable.resx">
       <DependentUpon>Timetable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TimetableForm.resx">
+      <DependentUpon>TimetableForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TransactionForm.resx">
       <DependentUpon>TransactionForm.cs</DependentUpon>

@@ -397,17 +397,17 @@ namespace MyClub
             var db = new DB();
             if (guna2ComboBox4.Text == "Транзакции")
             {
-                var tx = (Transaction)guna2DataGridView1.CurrentRow.DataBoundItem;
-                if (MessageBox.Show($"Удалить транзакцию #{tx.TransactionId}?",
+                int txId=Convert.ToInt32(guna2DataGridView1.CurrentRow.Cells["TransactionId"].Value);
+                if (MessageBox.Show($"Удалить транзакцию #{txId}?",
                     "Подтвердите", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                    db.DeleteTransaction(tx.TransactionId);
+                    db.DeleteTransaction(txId);
             }
             else
             {
-                int id = (int)guna2DataGridView1.CurrentRow.Cells["UserSubscriptionId"].Value;
-                if (MessageBox.Show($"Удалить подписку #{id}?",
+                int subId = Convert.ToInt32(guna2DataGridView1.CurrentRow.Cells["UserSubscriptionId"].Value);
+                if (MessageBox.Show($"Удалить подписку #{subId}?",
                     "Подтвердите", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                    db.DeleteUserSubscription(id);
+                    db.DeleteUserSubscription(subId);
             }
             RefreshDashboard();
         }

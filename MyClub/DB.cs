@@ -146,7 +146,6 @@ namespace MyClub
                         return false;
                     }
 
-                    // Параметризованный запрос
                     string sql = @"
                     UPDATE UsersAuth 
                     SET [Логин] = @newLogin, [Пароль] = @newPassword
@@ -192,7 +191,7 @@ namespace MyClub
                             MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return false;
                     }
-                    // Параметризованный запрос
+
                     string sql = @"
                     UPDATE UsersProfile 
                     SET [Фамилия] = @lastName, [Имя] = @firstName, [Отчество] = @fatherName,
@@ -241,7 +240,6 @@ namespace MyClub
                         return false;
                     }
 
-                    // Параметризованный запрос
                     string sql = @"
                     UPDATE UsersProfile
                     SET [Фото] = @Photo
@@ -471,11 +469,12 @@ namespace MyClub
         }
 
 
-        public List<Section> GetAllSections(string sportFilter)
+        public List<Section> GetAllSections(string sportFilter, int? trainerFilter)
         {
             var list = new List<Section>();
             string sql = @"
-            SELECT s.[ID секции]   AS SectionId,
+            SELECT 
+             s.[ID секции]   AS SectionId,
              s.[Название]    AS Name,
              s.[Описание]    AS Description,
              s.[ID тренера]  AS TrainerId,
@@ -485,11 +484,13 @@ namespace MyClub
               FROM Sections s
               LEFT JOIN UsersProfile up
                 ON s.[ID тренера] = up.[ID пользователя]
-              WHERE (@sport IS NULL OR s.[Вид спорта] = @sport)";
+              WHERE (@sport IS NULL OR s.[Вид спорта] = @sport)
+              AND(@trainer IS NULL OR s.[ID тренера] = @trainer)";
             using (var conn = new SqlConnection(StringConnection))
             using (var cmd = new SqlCommand(sql, conn))
             {
                 cmd.Parameters.AddWithValue("@sport", (object)sportFilter ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@trainer", (object)trainerFilter ?? DBNull.Value);
                 conn.Open();
                 using (var rdr = cmd.ExecuteReader())
                 {
@@ -622,33 +623,53 @@ namespace MyClub
 
         public bool DeleteSection(int sectionId)
         {
+            const string sqlMembers = @"
+        DELETE FROM dbo.SectionMembers
+         WHERE [ID секции] = @sectionId;";
+            const string sqlSection = @"
+        DELETE FROM dbo.Sections
+         WHERE [ID секции] = @sectionId;";
+
             try
             {
-                using (SqlConnection connection = new SqlConnection(StringConnection))
+                using (var conn = new SqlConnection(StringConnection))
                 {
-                    connection.Open();
-
-                    if (connection.State != ConnectionState.Open)
+                    conn.Open();
+                    using (var tran = conn.BeginTransaction())
                     {
-                        MessageBox.Show("Не удалось установить подключение к базе данных.", "Ошибка",
-                            MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        return false;
-                    }
+                        // 1) удаляем отсылки в SectionMembers
+                        using (var cmd = new SqlCommand(sqlMembers, conn, tran))
+                        {
+                            cmd.Parameters.AddWithValue("@sectionId", sectionId);
+                            cmd.ExecuteNonQuery();
+                        }
 
-                    string sql = "DELETE FROM SectionMembers WHERE [ID секции] = @sectionId";
-                    using (SqlCommand cmd = new SqlCommand(sql, connection))
-                    {
-                        cmd.Parameters.AddWithValue("@sectionId", sectionId);
-                        return cmd.ExecuteNonQuery() > 0;
+                        // 2) удаляем саму секцию
+                        using (var cmd = new SqlCommand(sqlSection, conn, tran))
+                        {
+                            cmd.Parameters.AddWithValue("@sectionId", sectionId);
+                            int affected = cmd.ExecuteNonQuery();
+                            if (affected == 0)
+                            {
+                                // секция не найдена
+                                tran.Rollback();
+                                return false;
+                            }
+                        }
+
+                        tran.Commit();
+                        return true;
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка удаления секции: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Ошибка удаления секции: {ex.Message}", "Ошибка",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
         }
+
 
 
         /// <summary>
@@ -792,17 +813,12 @@ namespace MyClub
             }
         }
 
-    public bool CreateTransaction(
-    DateTime date,
-    string operationType,
-    decimal amount,
-    string comment,
-    int? userId)
+        public bool CreateTransaction(DateTime date,string operationType,decimal amount,string comment,int? userId)
         {
             const string sql = @"
-        INSERT INTO Transactions
+            INSERT INTO Transactions
             ([Дата транзакции],[Тип операции],[Сумма],[Комментарий],[ID пользователя])
-        VALUES
+            VALUES
             (@date,@type,@amount,@comment,@userId)";
             using (var conn = new SqlConnection(StringConnection))
             using (var cmd = new SqlCommand(sql, conn))
@@ -829,13 +845,13 @@ namespace MyClub
             int? userId)
         {
             const string sql = @"
-        UPDATE Transactions
-           SET [Дата транзакции] = @date,
+            UPDATE Transactions
+            SET [Дата транзакции] = @date,
                [Тип операции]    = @type,
                [Сумма]           = @amount,
                [Комментарий]     = @comment,
                [ID пользователя] = @userId
-         WHERE [ID транзакции]   = @id";
+            WHERE [ID транзакции]   = @id";
             using (var conn = new SqlConnection(StringConnection))
             using (var cmd = new SqlCommand(sql, conn))
             {
@@ -1160,7 +1176,7 @@ namespace MyClub
         {
             const string sql = @"
                 DELETE FROM dbo.[SubscriptionType]
-                 WHERE [ID типа подписки] = @id";
+                WHERE [ID типа подписки] = @id";
             try
             {
                 using (var conn = new SqlConnection(StringConnection))
@@ -1176,6 +1192,239 @@ namespace MyClub
                 MessageBox.Show($"Ошибка DeleteSubscriptionType: {ex.Message}", "Ошибка БД",
                                 MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
+            }
+        }
+
+        // 1) Получить все события (с опциональным фильтром по месту)
+        // Получить события с четырьмя фильтрами
+        public List<Event> GetEvents(
+      string sectionFilter,
+      int? trainerFilter,
+      string sportFilter,
+      string locationFilter,
+       DateTime? dateFilter)
+        {
+            var list = new List<Event>();
+            const string sql = @"
+    SELECT 
+      e.[ID мероприятия]     AS EventId,
+      e.[Заголовок]          AS Title,
+      e.[Описание]           AS Description,
+      e.[Дата]               AS Date,
+      e.[Время начала]       AS StartTime,
+      e.[Время окончания]    AS EndTime,
+      e.[Место]              AS Location,
+      e.[ID ответственного]  AS ResponsibleId,
+      ISNULL(up.[Фамилия]+' '+up.[Имя],'') AS ResponsibleName,
+      e.[ID секции]          AS SectionId,
+      s.[Название]           AS SectionName,
+      s.[Вид спорта]         AS Sport
+    FROM dbo.Events e
+    LEFT JOIN dbo.UsersProfile up
+      ON e.[ID ответственного] = up.[ID пользователя]
+    LEFT JOIN dbo.Sections s
+      ON e.[ID секции] = s.[ID секции]
+    WHERE (@sec     IS NULL OR s.[Название]   = @sec)
+      AND (@trainer IS NULL OR e.[ID ответственного] = @trainer)
+      AND (@sport   IS NULL OR s.[Вид спорта] = @sport)
+      AND (@loc     IS NULL OR e.[Место] = @loc)
+      AND (@date    IS NULL OR e.[Дата] = @date)
+    ORDER BY e.[Дата], e.[Время начала]";
+
+            using (var conn = new SqlConnection(StringConnection))
+            using (var cmd = new SqlCommand(sql, conn))
+            {
+                cmd.Parameters.AddWithValue("@sec", (object)sectionFilter ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@trainer", (object)trainerFilter ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@sport", (object)sportFilter ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@loc", (object)locationFilter ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@date", (object)dateFilter ?? DBNull.Value);
+                conn.Open();
+                using (var rdr = cmd.ExecuteReader())
+                {
+                    while (rdr.Read())
+                    {
+                        list.Add(new Event
+                        {
+                            EventId = (int)rdr["EventId"],
+                            Title = rdr["Title"].ToString(),
+                            Description = rdr["Description"] != DBNull.Value
+                                                ? rdr["Description"].ToString()
+                                                : "",
+                            Date = (DateTime)rdr["Date"],
+                            StartTime = (TimeSpan)rdr["StartTime"],
+                            EndTime = rdr["EndTime"] != DBNull.Value
+                                                ? (TimeSpan?)rdr["EndTime"]
+                                                : null,
+                            Location = rdr["Location"] != DBNull.Value
+                                                ? rdr["Location"].ToString()
+                                                : "",
+                            ResponsibleId = rdr["ResponsibleId"] as int?,
+                            ResponsibleName = rdr["ResponsibleName"].ToString(),
+                            SectionId = rdr["SectionId"] as int?,
+                            SectionName = rdr["SectionName"] != DBNull.Value
+                                                ? rdr["SectionName"].ToString()
+                                                : "",
+                            Sport = rdr["Sport"] != DBNull.Value
+                                                ? rdr["Sport"].ToString()
+                                                : ""
+                        });
+                    }
+                }
+            }
+
+            return list;
+        }
+
+
+
+        // 2) Список всех уникальных мест из Events
+        public string[] GetDistinctEventLocations()
+        {
+            var locations = new List<string>();
+            const string sql = @"
+            SELECT DISTINCT [Место] 
+            FROM dbo.Events
+            WHERE [Место] IS NOT NULL
+            ORDER BY [Место]";
+            using (var conn = new SqlConnection(StringConnection))
+            using (var cmd = new SqlCommand(sql, conn))
+            {
+                conn.Open();
+                using (var rdr = cmd.ExecuteReader())
+                    while (rdr.Read())
+                        locations.Add(rdr.GetString(0));
+            }
+            return locations.ToArray();
+        }
+
+        // 3) Получить одно событие по ID
+        public Event GetEventById(int eventId)
+        {
+            const string sql = @"
+            SELECT 
+                [ID мероприятия]   AS EventId,
+                [Заголовок]        AS Title,
+                [Описание]         AS Description,
+                [Дата]             AS Date,
+                [Время начала]     AS StartTime,
+                [Время окончания]  AS EndTime,
+                [Место]            AS Location,
+                e.[ID ответственного] AS ResponsibleId,
+                ISNULL(up.[Фамилия]+' '+up.[Имя], '') AS ResponsibleName
+            FROM dbo.Events e
+            LEFT JOIN dbo.UsersProfile up
+              ON e.[ID ответственного] = up.[ID пользователя]
+            WHERE e.[ID мероприятия] = @id";
+            using (var conn = new SqlConnection(StringConnection))
+            using (var cmd = new SqlCommand(sql, conn))
+            {
+                cmd.Parameters.AddWithValue("@id", eventId);
+                conn.Open();
+                using (var rdr = cmd.ExecuteReader())
+                {
+                    if (!rdr.Read()) return null;
+                    return new Event
+                    {
+                        EventId = (int)rdr["EventId"],
+                        Title = rdr["Title"].ToString(),
+                        Description = rdr["Description"].ToString(),
+                        Date = (DateTime)rdr["Date"],
+                        StartTime = (TimeSpan)rdr["StartTime"],
+                        EndTime = rdr["EndTime"] as TimeSpan?,
+                        Location = rdr["Location"].ToString(),
+                        ResponsibleId = rdr["ResponsibleId"] as int?,
+                        ResponsibleName = rdr["ResponsibleName"].ToString()
+                    };
+                }
+            }
+        }
+
+        // 4) Удалить событие
+        public bool DeleteEvent(int eventId)
+        {
+            const string sql = @"
+            DELETE FROM dbo.Events
+            WHERE [ID мероприятия] = @id";
+            using (var conn = new SqlConnection(StringConnection))
+            using (var cmd = new SqlCommand(sql, conn))
+            {
+                cmd.Parameters.AddWithValue("@id", eventId);
+                conn.Open();
+                return cmd.ExecuteNonQuery() > 0;
+            }
+        }
+
+        /// <summary>
+        /// Создаёт новое мероприятие.
+        /// </summary>
+        public bool CreateEvent(
+            string title,
+            string description,
+            DateTime date,
+            TimeSpan startTime,
+            TimeSpan? endTime,
+            string location,
+            int? responsibleId)
+        {
+            const string sql = @"
+            INSERT INTO dbo.Events
+            ([Заголовок], [Описание], [Дата], [Время начала], [Время окончания], [Место], [ID ответственного])
+            VALUES
+            (@title, @desc, @date, @start, @end, @loc, @resp)";
+            using (var conn = new SqlConnection(StringConnection))
+            using (var cmd = new SqlCommand(sql, conn))
+            {
+                cmd.Parameters.AddWithValue("@title", title);
+                cmd.Parameters.AddWithValue("@desc", (object)description ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@date", date);
+                cmd.Parameters.AddWithValue("@start", startTime);
+                cmd.Parameters.AddWithValue("@end", (object)endTime ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@loc", (object)location ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@resp", (object)responsibleId ?? DBNull.Value);
+
+                conn.Open();
+                return cmd.ExecuteNonQuery() > 0;
+            }
+        }
+
+        /// <summary>
+        /// Обновляет существующее мероприятие.
+        /// </summary>
+        public bool UpdateEvent(
+            int eventId,
+            string title,
+            string description,
+            DateTime date,
+            TimeSpan startTime,
+            TimeSpan? endTime,
+            string location,
+            int? responsibleId)
+        {
+            const string sql = @"
+        UPDATE dbo.Events SET
+            [Заголовок]       = @title,
+            [Описание]        = @desc,
+            [Дата]            = @date,
+            [Время начала]    = @start,
+            [Время окончания] = @end,
+            [Место]           = @loc,
+            [ID ответственного] = @resp
+        WHERE [ID мероприятия] = @id";
+            using (var conn = new SqlConnection(StringConnection))
+            using (var cmd = new SqlCommand(sql, conn))
+            {
+                cmd.Parameters.AddWithValue("@id", eventId);
+                cmd.Parameters.AddWithValue("@title", title);
+                cmd.Parameters.AddWithValue("@desc", (object)description ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@date", date);
+                cmd.Parameters.AddWithValue("@start", startTime);
+                cmd.Parameters.AddWithValue("@end", (object)endTime ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@loc", (object)location ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@resp", (object)responsibleId ?? DBNull.Value);
+
+                conn.Open();
+                return cmd.ExecuteNonQuery() > 0;
             }
         }
     }

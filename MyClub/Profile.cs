@@ -1,7 +1,8 @@
 ﻿using Guna.UI2.WinForms;
 using System;
+using System.IO;
 using System.Windows.Forms;
-
+using System.Drawing;
 
 namespace MyClub
 {
@@ -10,160 +11,189 @@ namespace MyClub
         public Profile()
         {
             InitializeComponent();
+
+            // привязка событий — только здесь
+            this.Load += Profile_Load;
+            btnChangeCredentials.Click += BtnChangeCredentials_Click;
+            btnSaveProfile.Click += BtnSaveProfile_Click;
+            btnCancel.Click += BtnCancel_Click;
+            btnChangePhoto.Click += BtnChangePhoto_Click;
         }
 
-        private void Profile_Load_1(object sender, EventArgs e)
+        #region — Инициализация контролов —
+
+        private void Profile_Load(object sender, EventArgs e)
         {
-            LoadPersonalData();
+            InitControls();
+            LoadProfileData();
         }
 
-        private void LoadPersonalData()
+        private void InitControls()
         {
-            // Получаем данные текущего пользователя из глобального свойства
-            if (PersonalData.Current == null)
+            // Дата рождения — заменить TextBox на Guna2DateTimePicker
+            datePicker.Format = DateTimePickerFormat.Short;
+
+            // Изображение профиля
+            pictureBoxAvatar.SizeMode = PictureBoxSizeMode.Zoom;
+        }
+
+        #endregion
+
+        #region — Загрузка данных —
+
+        private void LoadProfileData()
+        {
+            var user = PersonalData.Current;
+            if (user == null)
             {
-                MessageBox.Show("Данные пользователя не загружены!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Данные пользователя не загружены!", "Ошибка",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            guna2TextBox10.Text = PersonalData.Current.Login;
-            guna2TextBox9.Text = PersonalData.Current.Password;
-            guna2TextBox2.Text = PersonalData.Current.LastName;
-            guna2TextBox1.Text = PersonalData.Current.FirstName;
-            guna2TextBox3.Text = PersonalData.Current.FatherName;
-            guna2TextBox6.Text = PersonalData.Current.DateBirth.HasValue
-                ? PersonalData.Current.DateBirth.Value.ToString("yyyy-MM-dd")
-                : "";
-            guna2TextBox5.Text = PersonalData.Current.PhoneNumber;
-            guna2TextBox4.Text = PersonalData.Current.Email;
+            // Текстовые поля
+            txtLogin.Text = user.Login;
+            txtPassword.Text = user.Password;
+            txtLastName.Text = user.LastName;
+            txtFirstName.Text = user.FirstName;
+            txtFatherName.Text = user.FatherName;
+            txtPhone.Text = user.PhoneNumber;
+            txtEmail.Text = user.Email;
 
-            // Загрузка фото
-            if (PersonalData.Current.Photo != null && PersonalData.Current.Photo.Length > 0)
+            // Дата рождения
+            if (user.DateBirth.HasValue)
+                datePicker.Value = user.DateBirth.Value;
+            else
+                datePicker.Value = DateTime.Today;
+
+            // Фото
+            if (user.Photo != null && user.Photo.Length > 0)
             {
-                using (var ms = new System.IO.MemoryStream(PersonalData.Current.Photo))
-                {
-                    pictureBox1.Image = System.Drawing.Image.FromStream(ms);
-                }
+                using (var ms = new MemoryStream(user.Photo))
+                    pictureBoxAvatar.Image = Image.FromStream(ms);
             }
             else
             {
-                pictureBox1.Image = null; 
+                pictureBoxAvatar.Image = null;
             }
         }
 
-        private void guna2Button1_Click(object sender, EventArgs e) // Сохранение логина и пароля
+        #endregion
+
+        #region — Команды пользователя —
+
+        private void BtnChangeCredentials_Click(object sender, EventArgs e)
         {
-            // Открываем новую форму для смены логина/пароля
-            using (var changeForm = new ChangeCredentialsForm())
+            using (var dlg = new ChangeCredentialsForm())
             {
-                // Передаём в новую форму текущий логин — чтобы отобразить его по умолчанию
-                changeForm.CurrentLogin = PersonalData.Current.Login;
-
-                // Запускаем форму модально
-                DialogResult result = changeForm.ShowDialog();
-                if (result == DialogResult.OK)
+                dlg.CurrentLogin = PersonalData.Current.Login;
+                if (dlg.ShowDialog() == DialogResult.OK)
                 {
-                    // Если пользователь нажал "OK" и всё прошло успешно,
-                    // перезагрузим поля, чтобы отобразить изменённый логин/пароль
-                    guna2TextBox10.Text = PersonalData.Current.Login;
-                    guna2TextBox9.Text = PersonalData.Current.Password;
-
-                    MessageBox.Show("Логин/пароль успешно изменены!",
-                        "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    // перезагрузить только логин/пароль
+                    txtLogin.Text = PersonalData.Current.Login;
+                    txtPassword.Text = PersonalData.Current.Password;
+                    MessageBox.Show("Логин/пароль успешно изменены!", "Успех",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
         }
 
-        private void guna2Button2_Click(object sender, EventArgs e) // Сохранение профиля
+        private void BtnSaveProfile_Click(object sender, EventArgs e)
         {
-            string newEmail = guna2TextBox4.Text;
-            string newLastName = guna2TextBox2.Text;
-            string newFirstName = guna2TextBox1.Text;
-            string newFatherName = guna2TextBox3.Text;
-            DateTime? newDateBirth = null;
-            string newPhoneNumber = guna2TextBox5.Text;
+            // чтение из контролов
+            var newLast = txtLastName.Text.Trim();
+            var newFirst = txtFirstName.Text.Trim();
+            var newFather = txtFatherName.Text.Trim();
+            var newEmail = txtEmail.Text.Trim();
+            var newPhone = txtPhone.Text.Trim();
+            DateTime? newDOB = datePicker.Value;
 
-            // Проверяем, что поля не пусты
-            if (string.IsNullOrEmpty(newEmail) || string.IsNullOrEmpty(newLastName) ||
-                string.IsNullOrEmpty(newFirstName) || string.IsNullOrEmpty(newFatherName))
+            // валидация
+            if (string.IsNullOrEmpty(newLast) ||
+                string.IsNullOrEmpty(newFirst) ||
+                string.IsNullOrEmpty(newFather) ||
+                string.IsNullOrEmpty(newEmail))
             {
-                MessageBox.Show("Все поля необходимо заполнить",
-                    "Уведомление", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Заполните все обязательные поля.", "Внимание",
+                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            // Проверяем корректность даты рождения
-            if (!string.IsNullOrEmpty(guna2TextBox6.Text) && DateTime.TryParse(guna2TextBox6.Text, out DateTime dateBirth))
+
+            if (MessageBox.Show("Сохранить изменения профиля?", "Подтверждение",
+                                MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                != DialogResult.Yes)
+                return;
+
+            // обновление в БД
+            var db = new DB();
+            bool ok = db.UpdateUserProfile(
+                PersonalData.Current.UserId,
+                newLast, newFirst, newFather,
+                newDOB, newPhone, newEmail
+            );
+
+            if (ok)
             {
-                newDateBirth = dateBirth;
+                // обновляем модель
+                PersonalData.Current.UpdateProfile(
+                    newLast, newFirst, newFather,
+                    newDOB, newPhone, newEmail
+                );
+
+                MessageBox.Show("Данные профиля сохранены.", "Успех",
+                                MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-            // Спрашиваем подтверждение
-            DialogResult result = MessageBox.Show("Изменить профиль?",
-                "Подтверждение", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (result == DialogResult.Yes)
+            else
             {
-                // Обновляем данные в БД
-                DB db = new DB();
-                bool success = db.UpdateUserProfile(PersonalData.Current.UserId,
-                    newLastName, newFirstName, newFatherName, newDateBirth, newPhoneNumber, newEmail); 
-                if (success)
-                {
-                    // Обновляем локальный объект PersonalData через публичный метод
-                    PersonalData.Current.UpdateProfile(newLastName, newFirstName, newFatherName, newDateBirth, newPhoneNumber, newEmail);
-                    MessageBox.Show("Данные успешно обновлены!",
-                        "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                else
-                {
-                    MessageBox.Show("Ошибка при обновлении данных пользователя.",
-                        "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                MessageBox.Show("Ошибка при сохранении профиля.", "Ошибка",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        private void label4_Click(object sender, EventArgs e) //Сменить фото
+        private void BtnChangePhoto_Click(object sender, EventArgs e)
         {
-            // Диалог выбора изображения
-            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            using (var dlg = new OpenFileDialog())
             {
-                // Фильтр для облегчения поиска картинок
-                openFileDialog.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp|All Files|*.*";
-                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                dlg.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp|All Files|*.*";
+                if (dlg.ShowDialog() != DialogResult.OK) return;
+
+                try
                 {
-                    try
+                    byte[] data = File.ReadAllBytes(dlg.FileName);
+                    var db = new DB();
+                    if (db.UpdateUserPhoto(PersonalData.Current.UserId, data))
                     {
-                        // Считываем выбранный файл в массив байтов
-                        byte[] fileData = System.IO.File.ReadAllBytes(openFileDialog.FileName);
+                        PersonalData.Current.UpdatePhoto(data);
+                        using (var ms = new MemoryStream(data))
+                            pictureBoxAvatar.Image = Image.FromStream(ms);
 
-                        // Обновляем в БД
-                        DB db = new DB();
-                        bool success = db.UpdateUserPhoto(PersonalData.Current.UserId, fileData);
-                        if (success)
-                        {
-                            // Локально обновляем PersonalData и PictureBox
-                            PersonalData.Current.UpdatePhoto(fileData);
-
-                            using (var ms = new System.IO.MemoryStream(fileData))
-                            {
-                                pictureBox1.Image = System.Drawing.Image.FromStream(ms);
-                            }
-
-                            MessageBox.Show("Фото успешно обновлено!",
-                                "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        }
-                        else
-                        {
-                            MessageBox.Show("Ошибка при обновлении фото.",
-                                "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
+                        MessageBox.Show("Фото обновлено.", "Успех",
+                                        MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
-                    catch (Exception ex)
+                    else
                     {
-                        MessageBox.Show("Ошибка чтения файла: " + ex.Message,
-                            "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("Не удалось сохранить фото.", "Ошибка",
+                                        MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Ошибка при чтении файла: " + ex.Message,
+                                    "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
 
+        #endregion
+
+        private void BtnCancel_Click(object sender, EventArgs e)
+        {
+            // просто закрываем форму и возвращаемся в список пользователей
+            this.Close();
+            if (this.TopLevelControl is Form1 mainForm)
+            {
+                mainForm.OpenForm(new Users()); // или та форма, откуда вы открывали
+            }
+        }
     }
 }

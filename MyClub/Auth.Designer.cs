@@ -166,7 +166,7 @@
             this.guna2TextBox3.Size = new System.Drawing.Size(244, 43);
             this.guna2TextBox3.TabIndex = 4;
             this.guna2TextBox3.UseSystemPasswordChar = true;
-            this.guna2TextBox3.TextChanged += new System.EventHandler(this.guna2TextBox3_TextChanged);
+
             // 
             // guna2TextBox2
             // 
@@ -188,7 +188,7 @@
             this.guna2TextBox2.Size = new System.Drawing.Size(244, 43);
             this.guna2TextBox2.TabIndex = 3;
             this.guna2TextBox2.UseSystemPasswordChar = true;
-            this.guna2TextBox2.TextChanged += new System.EventHandler(this.guna2TextBox2_TextChanged);
+
             // 
             // guna2TextBox1
             // 
@@ -209,7 +209,7 @@
             this.guna2TextBox1.SelectedText = "";
             this.guna2TextBox1.Size = new System.Drawing.Size(244, 43);
             this.guna2TextBox1.TabIndex = 2;
-            this.guna2TextBox1.TextChanged += new System.EventHandler(this.guna2TextBox1_TextChanged);
+
             // 
             // guna2Button1
             // 

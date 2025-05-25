@@ -161,7 +161,7 @@
             this.guna2Button2.Size = new System.Drawing.Size(250, 45);
             this.guna2Button2.TabIndex = 9;
             this.guna2Button2.Text = "Отмена";
-            this.guna2Button2.Click += new System.EventHandler(this.guna2Button2_Click);
+
             // 
             // label2
             // 
@@ -196,7 +196,7 @@
             this.guna2TextBox2.SelectedText = "";
             this.guna2TextBox2.Size = new System.Drawing.Size(282, 36);
             this.guna2TextBox2.TabIndex = 7;
-            this.guna2TextBox2.TextChanged += new System.EventHandler(this.guna2TextBox2_TextChanged);
+
             // 
             // label1
             // 
@@ -231,7 +231,7 @@
             this.guna2TextBox1.SelectedText = "";
             this.guna2TextBox1.Size = new System.Drawing.Size(282, 36);
             this.guna2TextBox1.TabIndex = 5;
-            this.guna2TextBox1.TextChanged += new System.EventHandler(this.guna2TextBox1_TextChanged);
+
             // 
             // guna2Button1
             // 
@@ -285,7 +285,7 @@
             this.guna2TextBox9.SelectedText = "";
             this.guna2TextBox9.Size = new System.Drawing.Size(282, 36);
             this.guna2TextBox9.TabIndex = 2;
-            this.guna2TextBox9.TextChanged += new System.EventHandler(this.guna2TextBox9_TextChanged);
+
             // 
             // label10
             // 
@@ -319,7 +319,6 @@
             this.guna2TextBox10.SelectedText = "";
             this.guna2TextBox10.Size = new System.Drawing.Size(282, 36);
             this.guna2TextBox10.TabIndex = 0;
-            this.guna2TextBox10.TextChanged += new System.EventHandler(this.guna2TextBox10_TextChanged);
             // 
             // guna2BorderlessForm1
             // 

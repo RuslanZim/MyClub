@@ -1,71 +1,98 @@
 ﻿using Guna.UI2.WinForms;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web.UI.WebControls.WebParts;
 using System.Windows.Forms;
 
 namespace MyClub
 {
     public partial class Sections : Form
     {
-        private int? _selectedSectionId = null;
-        private bool _suppressFilter = false;
+        private int? _selectedSectionId;
+        private bool _suppressFilter;
 
         public Sections()
         {
             InitializeComponent();
-            flowLayoutPanelSections.FlowDirection = FlowDirection.TopDown;
-            guna2TextBox1.TextChanged += FilterTextChanged;
 
-
-
+            // привязка событий — только здесь
+            txtSportFilter.TextChanged += OnFilterChanged;
+            comboBoxTrainer.SelectedIndexChanged += OnFilterChanged;
+            btnCreate.Click += BtnCreate_Click;
+            btnEdit.Click += BtnEdit_Click;
+            btnSave.Click += BtnSave_Click;
+            btnDelete.Click += BtnDelete_Click;
         }
 
         private void Sections_Load(object sender, EventArgs e)
         {
-             // Заполнить список тренеров
-            var trainers = new DB().GetAllTrainers();
-            guna2ComboBox2.DataSource = trainers;
-            guna2ComboBox2.DisplayMember = "LastName";
-            guna2ComboBox2.ValueMember = "UserId";
-            guna2ComboBox2.SelectedIndex = -1;
-
-            // Спрятать кнопку «Сохранить»
-            guna2Button4.Visible = false;
-
-            LoadSections();
+            InitControls();
+            RefreshSectionsDashboard();
         }
 
-        private void LoadSections()
+        #region — Инициализация  —
+
+        private void InitControls()
         {
+            // flow direction
+            flowLayoutPanelSections.FlowDirection = FlowDirection.TopDown;
+
+            // тренеры
+            var trainers = new DB().GetAllTrainers();
+            comboBoxTrainer.DataSource = trainers;
+            comboBoxTrainer.DisplayMember = nameof(PersonalData.LastName);
+            comboBoxTrainer.ValueMember = nameof(PersonalData.UserId);
+            comboBoxTrainer.SelectedIndex = -1;
+
+            // прячем Save в начале
+            btnSave.Visible = false;
+        }
+
+        #endregion
+
+        #region — Обновление панели —
+
+        private void RefreshSectionsDashboard()
+        {
+            // очистка
             flowLayoutPanelSections.Controls.Clear();
             _selectedSectionId = null;
 
-            var db = new DB();
-            string sport = string.IsNullOrWhiteSpace(guna2TextBox1.Text)
-                           ? null
-                           : guna2TextBox1.Text.Trim();
-            var sections = db.GetAllSections(sport);
+            // фильтр
+            string sportFilter = string.IsNullOrWhiteSpace(txtSportFilter.Text)
+                ? null
+                : txtSportFilter.Text.Trim();
+            int? trainerFilter = comboBoxTrainer.SelectedValue as int?;
+
+            // загрузка из БД
+            var sections = new DB().GetAllSections(sportFilter, trainerFilter)
+                           ?? new List<Section>();
+
+            // биндим карточки
+            BindSectionsList(sections);
+        }
+
+        #endregion
+
+        #region — Привязка списка —
+
+        private void BindSectionsList(IEnumerable<Section> sections)
+        {
             foreach (var s in sections)
             {
                 var card = new SectionCard(s)
                 {
                     BorderColor = Color.FromArgb(67, 96, 130)
                 };
-                card.Click += (sender, e) =>
+                card.Click += (snd, ea) =>
                 {
-                    // Сброс рамок у всех карточек
+                    // сбросить все
                     foreach (Control c in flowLayoutPanelSections.Controls)
                         if (c is Guna2GroupBox gb)
                             gb.BorderColor = Color.FromArgb(67, 96, 130);
 
-                    // Подсветим выбранную
+                    // выделить и запомнить
                     card.BorderColor = Color.Orange;
                     _selectedSectionId = s.SectionId;
                 };
@@ -73,47 +100,19 @@ namespace MyClub
             }
         }
 
+        #endregion
 
-        private void flowLayoutPanelSections_Paint(object sender, PaintEventArgs e)//flowLayoutPanelSections
+        #region — Команды (Создать/Изменить/Удалить) —
+
+        private void BtnCreate_Click(object sender, EventArgs e)
         {
+            // чтение полей
+            var sport = txtSportFilter.Text.Trim();
+            var name = txtName.Text.Trim();
+            var desc = txtDescription.Text.Trim();
+            int? trainerId = comboBoxTrainer.SelectedValue as int?;
 
-        }
-
-
-        private void guna2TextBox9_TextChanged(object sender, EventArgs e)//название
-        {
-
-        }
-
-        private void guna2TextBox7_TextChanged(object sender, EventArgs e)//описание
-        {
-
-        }
-
-        private void guna2ComboBox2_SelectedIndexChanged(object sender, EventArgs e)//тренер
-        {
-
-        }
-
-        private void guna2Button1_Click(object sender, EventArgs e)//создать
-        {
-            // Собираем поля
-            var sport = guna2TextBox1.Text.Trim();
-            var name = guna2TextBox9.Text.Trim();
-            var desc = guna2TextBox7.Text.Trim();
-
-            // 2. Корректное чтение тренера:
-            var selectedTrainer = guna2ComboBox2.SelectedItem as PersonalData;
-            int? trainerId = selectedTrainer?.UserId;
-
-
-            MessageBox.Show(
-              selectedTrainer == null
-                ? "Никакой тренер не выбран"
-                : $"Выбран тренер: {selectedTrainer.LastName} (ID={selectedTrainer.UserId})"
-            );
-
-
+            // валидация
             if (string.IsNullOrEmpty(name))
             {
                 MessageBox.Show("Введите название секции", "Ошибка",
@@ -121,8 +120,8 @@ namespace MyClub
                 return;
             }
 
-            var db = new DB();
-            int newId = db.CreateSection(name, desc, trainerId, sport);
+            // создаём
+            int newId = new DB().CreateSection(name, desc, trainerId, sport);
             if (newId <= 0)
             {
                 MessageBox.Show("Не удалось создать секцию", "Ошибка",
@@ -130,86 +129,52 @@ namespace MyClub
                 return;
             }
 
-            // Очистка полей (поля вида спорта оставляем)
-            guna2TextBox9.Clear();
-            guna2TextBox7.Clear();
-            guna2ComboBox2.SelectedIndex = -1;
+            // очистка полей (фильтр оставляем)
+            txtName.Clear();
+            txtDescription.Clear();
+            comboBoxTrainer.SelectedIndex = -1;
 
-            LoadSections();
+            RefreshSectionsDashboard();
         }
 
-        private void guna2Button2_Click(object sender, EventArgs e)//изменить
+        private void BtnEdit_Click(object sender, EventArgs e)
         {
             if (_selectedSectionId == null)
             {
-                MessageBox.Show("Сначала выберите секцию кликом по карточке.",
-                                "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Сначала выберите секцию кликом по карточке.", "Внимание",
+                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-
-            // Вытаскиваем из БД
-            var db = new DB();
-            var sec = db.GetSectionById(_selectedSectionId.Value);
+            var sec = new DB().GetSectionById(_selectedSectionId.Value);
             if (sec == null) return;
 
-            // временно отписываем фильтр
-            guna2TextBox1.TextChanged -= FilterTextChanged;
+            // выключаем фильтрацию, чтобы пользователь мог править поля
+            _suppressFilter = true;
 
-            // Заполняем поля (те же, что для создания)
-            guna2TextBox1.Text = sec.Sport;
-            guna2TextBox9.Text = sec.Name;
-            guna2TextBox7.Text = sec.Description;
-            guna2ComboBox2.SelectedValue = sec.TrainerId;
-
+            // заполняем поля
+            txtSportFilter.Text = sec.Sport;
+            txtName.Text = sec.Name;
+            txtDescription.Text = sec.Description;
             if (sec.TrainerId.HasValue)
-                guna2ComboBox2.SelectedValue = sec.TrainerId.Value;
+                comboBoxTrainer.SelectedValue = sec.TrainerId.Value;
             else
-                guna2ComboBox2.SelectedIndex = -1;
+                comboBoxTrainer.SelectedIndex = -1;
 
-            // Показываем кнопку Сохранить, прячем Создать
-            guna2Button4.Visible = true;
-            guna2Button1.Visible = false;
+            // режим редактирования
+            btnSave.Visible = true;
+            btnCreate.Visible = false;
         }
 
-        // Обработчик фильтра, вынесенный в именованный метод:
-        private void FilterTextChanged(object s, EventArgs e)
-        {
-            if (_suppressFilter) return;   // если мы в режиме редактирования — не фильтруем
-            LoadSections();
-        }
-
-        private void guna2Button3_Click(object sender, EventArgs e)//удалить
-        {
-            if (_selectedSectionId == null)
-            {
-                MessageBox.Show("Сначала выберите секцию кликом по карточке.",
-                                "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            if (MessageBox.Show("Удалить выбранную секцию?", "Подтвердите",
-                    MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
-                return;
-
-            new DB().DeleteSection(_selectedSectionId.Value);
-            _selectedSectionId = null;
-            LoadSections();
-        }
-
-        private void guna2TextBox1_TextChanged(object sender, EventArgs e)//вид спорта
-        {
-
-        }
-
-        private void guna2Button4_Click(object sender, EventArgs e) //Сохранить
+        private void BtnSave_Click(object sender, EventArgs e)
         {
             if (_selectedSectionId == null) return;
 
-            var sport = guna2TextBox1.Text.Trim();
-            var name = guna2TextBox9.Text.Trim();
-            var desc = guna2TextBox7.Text.Trim();
-            object val = guna2ComboBox2.SelectedValue;
+            // чтение полей
+            var sport = txtSportFilter.Text.Trim();
+            var name = txtName.Text.Trim();
+            var desc = txtDescription.Text.Trim();
+            object val = comboBoxTrainer.SelectedValue;
             int? trainerId = (val == null || val == DBNull.Value)
                              ? (int?)null
                              : Convert.ToInt32(val);
@@ -223,15 +188,44 @@ namespace MyClub
 
             new DB().UpdateSection(_selectedSectionId.Value, name, desc, trainerId, sport);
 
-            // Выходим из режима редактирования
+            // выходим из режима редактирования
             _suppressFilter = false;
             _selectedSectionId = null;
+            btnSave.Visible = false;
+            btnCreate.Visible = true;
 
-            guna2Button4.Visible = false;
-            guna2Button1.Visible = true;
-            _selectedSectionId = null;
-
-            LoadSections();
+            RefreshSectionsDashboard();
         }
+
+        private void BtnDelete_Click(object sender, EventArgs e)
+        {
+            if (_selectedSectionId == null)
+            {
+                MessageBox.Show("Сначала выберите секцию кликом по карточке.", "Внимание",
+                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (MessageBox.Show("Удалить выбранную секцию?", "Подтвердите",
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
+                return;
+
+            new DB().DeleteSection(_selectedSectionId.Value);
+            _selectedSectionId = null;
+            RefreshSectionsDashboard();
+        }
+
+        #endregion
+
+        #region — Обработчик фильтра —
+
+        private void OnFilterChanged(object sender, EventArgs e)
+        {
+            if (_suppressFilter) return;
+            RefreshSectionsDashboard();
+        }
+
+        #endregion
     }
 }
+
