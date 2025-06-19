@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="MyClub.AllProfile">
+    <Position X="0.75" Y="0.75" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>EAqUAAEQASASABGAAgCgAAFCAABAIMBBABAAAmIAAAA=</HashCode>
+      <FileName>AllProfile.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MyClub.Auth">
+    <Position X="0.5" Y="10" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>gCCAAIAAICAAABAAEACAAACCAAAAAAAAZwCAAABJBAA=</HashCode>
+      <FileName>Auth.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MyClub.DB">
+    <Position X="4.5" Y="16.5" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>EAAgQACEgCaIFAAEgAJgQIASQAwgAFACAIICCAACiAA=</HashCode>
+      <FileName>DB.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MyClub.Event" Collapsed="true">
+    <Position X="5.5" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAIAgCEAAAAIAAAAAIAAgAAABAACAAAAQAAA=</HashCode>
+      <FileName>Event.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MyClub.Finance" Collapsed="true">
+    <Position X="5.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ChAIAAUCKzAAGysBAAmCIIBiACQCCEgBQAwkAgBQBAU=</HashCode>
+      <FileName>Finance.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MyClub.Form1">
+    <Position X="7.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BCAoIgD+GWAA4BAABCCAwIQCEAIgAICAAAAIBQD/BgA=</HashCode>
+      <FileName>Form1.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MyClub.Inventory" Collapsed="true">
+    <Position X="5.25" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAgAEAACIAIAEAAACAAAACACAEAAgAAAAAAAAAAAQ=</HashCode>
+      <FileName>Inventory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MyClub.PersonalData">
+    <Position X="7" Y="7.5" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAFAAASAAAGAAEACAQAgAAAABAAACAAAaAAEAAAg=</HashCode>
+      <FileName>PersonalData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MyClub.Profile">
+    <Position X="1.5" Y="1" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>kAqgAgEQASACABGQAACAAAACAABAgMAAAAgABGAAEAA=</HashCode>
+      <FileName>Profile.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MyClub.Program" Collapsed="true">
+    <Position X="9" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MyClub.Section" Collapsed="true">
+    <Position X="8.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAAAAAABAQAAAACAEAAAACAAAAQAAA=</HashCode>
+      <FileName>Section.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MyClub.Sections">
+    <Position X="1.5" Y="16.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>EAIQhIEABCAEEBFCAAWAoAAiAAAAgEAAQAAAACIAAGQ=</HashCode>
+      <FileName>Sections.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MyClub.Timetable">
+    <Position X="8.5" Y="16.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>CAIAhAECATAAEAFQAACAggACAAQKACgQAAgEAAAAggU=</HashCode>
+      <FileName>Timetable.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MyClub.Transaction" Collapsed="true">
+    <Position X="7.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAAAAAAACAAAAiAAAAAAAABAABAAAAAAAA=</HashCode>
+      <FileName>Transaction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MyClub.Users">
+    <Position X="3.75" Y="10" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAACAAAAAAAACAUACCACAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Users.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -205,8 +205,10 @@ namespace MyClub
 
             using (var dlg = new TimetableForm(entry))
             {
-                if (dlg.ShowDialog() == DialogResult.OK)
-                    RefreshTimetableDashboard();
+                if (this.TopLevelControl is Form1 mainForm)
+                {
+                    mainForm.OpenForm(new TimetableForm(entry));
+                }
             }
         }
 

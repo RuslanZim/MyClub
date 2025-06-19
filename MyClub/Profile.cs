@@ -188,11 +188,11 @@ namespace MyClub
 
         private void BtnCancel_Click(object sender, EventArgs e)
         {
-            // просто закрываем форму и возвращаемся в список пользователей
+
             this.Close();
             if (this.TopLevelControl is Form1 mainForm)
             {
-                mainForm.OpenForm(new Users()); // или та форма, откуда вы открывали
+                mainForm.OpenForm(new Users()); 
             }
         }
     }

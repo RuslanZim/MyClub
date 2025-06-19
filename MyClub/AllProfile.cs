@@ -205,5 +205,10 @@ namespace MyClub
         }
 
         #endregion
+
+        public void Method()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

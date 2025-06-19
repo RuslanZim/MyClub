@@ -59,10 +59,6 @@ namespace MyClub
             }
         }
 
-        private void Grid_SelectionChanged(object sender, EventArgs e)
-        {
-            
-        }
 
         private void guna2Button1_Click(object sender, EventArgs e) //добавить
         {

@@ -10,6 +10,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 using System.Web.Security;
 using System.Web.UI.WebControls;
 using System.Windows.Documents;
+using System.Diagnostics;
 
 namespace MyClub
 {
@@ -17,22 +18,6 @@ namespace MyClub
     {
         public string StringConnection => "Server=DESKTOP-N6JL58D\\SQLEXPRESS;Database=MyClubDB;Trusted_Connection=True";
 
-        /// <summary>
-        /// Регистрирует нового пользователя.
-        /// Вставляет данные в таблицу UsersAuth (логин, пароль, роль) и UsersProfile (дополнительная информация, включая фото) в рамках одной транзакции.
-        /// Остальные поля (email, Фамилия, Имя, Отчество, Дата рождения, Номер телефона, Фото) передаются значениями по умолчанию, если не заданы.
-        /// </summary>
-        /// <param name="login">Логин пользователя</param>
-        /// <param name="password">Пароль пользователя</param>
-        /// <param name="role">Роль, например "Пользователь"</param>
-        /// <param name="email">Электронная почта (может быть пустой)</param>
-        /// <param name="lastName">Фамилия (может быть пустой)</param>
-        /// <param name="firstName">Имя (может быть пустым)</param>
-        /// <param name="fatherName">Отчество (может быть пустым)</param>
-        /// <param name="dateBirth">Дата рождения (может быть null)</param>
-        /// <param name="phoneNumber">Номер телефона (может быть пустым)</param>
-        /// <param name="photo">Фото в виде массива байтов (может быть null)</param>
-        /// <returns>Возвращает true, если регистрация прошла успешно, иначе false.</returns>
         public bool RegisterUser(
             string login,
             string password,
@@ -53,7 +38,7 @@ namespace MyClub
                     SqlTransaction transaction = connection.BeginTransaction();
                     try
                     {
-                        // Вставляем данные в таблицу аутентификации UsersAuth
+
                         string sqlAuth = @"
                             INSERT INTO [dbo].[UsersAuth] (
                                 [Логин], 
@@ -73,7 +58,7 @@ namespace MyClub
                             newUserId = Convert.ToInt32(cmd.ExecuteScalar());
                         }
 
-                        // Вставляем данные в таблицу профиля UsersProfile
+
                         string sqlProfile = @"
                             INSERT INTO [dbo].[UsersProfile] (
                                 [Фамилия],
@@ -101,7 +86,7 @@ namespace MyClub
                             cmd.Parameters.AddWithValue("@dateBirth", (object)dateBirth ?? DBNull.Value);
                             cmd.Parameters.AddWithValue("@phoneNumber", phoneNumber);
                             cmd.Parameters.AddWithValue("@email", email);
-                            // Явно указываем тип данных для параметра @photo
+
                             if (photo != null)
                             {
                                 cmd.Parameters.Add("@photo", SqlDbType.VarBinary).Value = photo;
@@ -132,7 +117,7 @@ namespace MyClub
             }
         }
 
-        public bool UpdateUserLoginPassword(int userId, string newLogin, string newPassword) //Обновление логина и пароля
+        public bool UpdateUserLoginPassword(int userId, string newLogin, string newPassword) 
         {
             try
             {
@@ -177,7 +162,7 @@ namespace MyClub
             }
         }
 
-        public bool UpdateUserProfile(int userId, string lastName, string firstName, string fatherName, //Обновление профиля
+        public bool UpdateUserProfile(int userId, string lastName, string firstName, string fatherName, 
             DateTime? dateBirth, string phoneNumber, string email)
         {
             try
@@ -282,7 +267,7 @@ namespace MyClub
                             MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return false;
                     }
-                    // Параметризованный запрос
+
                     string sql = @"
                     DELETE FROM UsersProfile WHERE [ID Пользователя] = @id;
                     DELETE FROM UsersAuth WHERE [ID Пользователя] = @id;";
@@ -320,7 +305,7 @@ namespace MyClub
                             MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return false;
                     }
-                    // Параметризованный запрос
+
                     string sql = @"
                     UPDATE UsersAuth 
                     SET [Логин] = @newLogin, [Пароль] = @newPassword, [Роль] = @newRole
@@ -405,7 +390,6 @@ namespace MyClub
                             cmd.Parameters.AddWithValue("@phoneNumber", phoneNumber);
                             cmd.Parameters.AddWithValue("@email", email);
 
-                            // Параметр photo: если null, отправляем DBNull
                             if (photo != null && photo.Length > 0)
                             {
                                 cmd.Parameters.Add("@photo", SqlDbType.VarBinary).Value = photo;
@@ -1427,6 +1411,157 @@ namespace MyClub
                 return cmd.ExecuteNonQuery() > 0;
             }
         }
+
+        public List<InventoryItem> GetAllInventory()
+        {
+            var list = new List<InventoryItem>();
+            const string sql = @"
+            SELECT
+              [ID инвентаря]          AS InventoryId,
+              [Наименование]          AS Name,
+              [Количество]            AS Quantity,
+              [Статус]                AS Status,
+              [Дата последнего обслуживания] AS LastMaintenanceDate,
+              [Дата приобретения]     AS PurchaseDate,
+              i.[ID ответственного]   AS ResponsibleId,
+              ISNULL(up.[Фамилия]+' '+up.[Имя], '') AS ResponsibleName
+            FROM dbo.Inventory i
+            LEFT JOIN dbo.UsersProfile up
+              ON i.[ID ответственного] = up.[ID пользователя]";
+            using (var conn = new SqlConnection(StringConnection))
+            using (var cmd = new SqlCommand(sql, conn))
+            {
+                conn.Open();
+                using (var rdr = cmd.ExecuteReader())
+                    while (rdr.Read())
+                    {
+                        list.Add(new InventoryItem
+                        {
+                            InventoryId = (int)rdr["InventoryId"],
+                            Name = (string)rdr["Name"],
+                            Quantity = (int)rdr["Quantity"],
+                            Status = (string)rdr["Status"],
+                            LastMaintenance = rdr["LastMaintenanceDate"] as DateTime?,
+                            PurchaseDate = rdr["PurchaseDate"] as DateTime?,
+                            ResponsibleId = rdr["ResponsibleId"] as int?,
+                            ResponsibleName = (string)rdr["ResponsibleName"]
+                        });
+                    }
+            }
+            return list;
+        }
+
+        /// <summary>
+        /// Создать новую запись инвентаря.
+        /// </summary>
+        public bool CreateInventory(
+            string name,
+            int quantity,
+            string status,
+            DateTime? lastMaintenance,
+            DateTime? purchaseDate,
+            int? responsibleId)
+        {
+            const string sql = @"
+            INSERT INTO dbo.Inventory
+              ([Наименование], [Количество], [Статус], [Дата последнего обслуживания], [Дата приобретения], [ID ответственного])
+            VALUES
+              (@name, @qty, @status, @lastMaint, @purchDate, @resp)";
+            try
+            {
+                using (var conn = new SqlConnection(StringConnection))
+                using (var cmd = new SqlCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@name", name);
+                    cmd.Parameters.AddWithValue("@qty", quantity);
+                    cmd.Parameters.AddWithValue("@status", status);
+                    cmd.Parameters.AddWithValue("@lastMaint", (object)lastMaintenance ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@purchDate", (object)purchaseDate ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@resp", (object)responsibleId ?? DBNull.Value);
+
+                    conn.Open();
+                    return cmd.ExecuteNonQuery() == 1;
+                }
+            }
+            catch (Exception ex)
+            {
+                Trace.TraceError($"[InventoryService] CreateInventory failed: {ex}");
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Обновить существующую запись инвентаря.
+        /// </summary>
+        public bool UpdateInventory(
+            int inventoryId,
+            string name,
+            int quantity,
+            string status,
+            DateTime? lastMaintenance,
+            DateTime? purchaseDate,
+            int? responsibleId)
+        {
+            const string sql = @"
+            UPDATE dbo.Inventory
+            SET 
+                [Наименование]                = @name,
+                [Количество]                  = @qty,
+                [Статус]                      = @status,
+                [Дата последнего обслуживания] = @lastMaint,
+                [Дата приобретения]           = @purchDate,
+                [ID ответственного]           = @resp
+            WHERE [ID инвентаря] = @id";
+            try
+            {
+                using (var conn = new SqlConnection(StringConnection))
+                using (var cmd = new SqlCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@id", inventoryId);
+                    cmd.Parameters.AddWithValue("@name", name);
+                    cmd.Parameters.AddWithValue("@qty", quantity);
+                    cmd.Parameters.AddWithValue("@status", status);
+                    cmd.Parameters.AddWithValue("@lastMaint", (object)lastMaintenance ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@purchDate", (object)purchaseDate ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@resp", (object)responsibleId ?? DBNull.Value);
+
+                    conn.Open();
+                    return cmd.ExecuteNonQuery() == 1;
+                }
+            }
+            catch (Exception ex)
+            {
+                Trace.TraceError($"[InventoryService] UpdateInventory failed: {ex}");
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Удалить запись инвентаря по ID.
+        /// </summary>
+        public bool DeleteInventory(int inventoryId)
+        {
+            const string sql = @"
+            DELETE FROM dbo.Inventory
+            WHERE [ID инвентаря] = @id";
+            try
+            {
+                using (var conn = new SqlConnection(StringConnection))
+                using (var cmd = new SqlCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@id", inventoryId);
+
+                    conn.Open();
+                    return cmd.ExecuteNonQuery() == 1;
+                }
+            }
+            catch (Exception ex)
+            {
+                Trace.TraceError($"[InventoryService] DeleteInventory failed: {ex}");
+                return false;
+            }
+        }
     }
 }
+
 
