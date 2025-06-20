@@ -30,7 +30,6 @@
         {
             this.components = new System.ComponentModel.Container();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.iconButton12 = new FontAwesome.Sharp.IconButton();
             this.iconButton13 = new FontAwesome.Sharp.IconButton();
             this.panel3 = new System.Windows.Forms.Panel();
             this.guna2GroupBox2 = new Guna.UI2.WinForms.Guna2GroupBox();
@@ -53,7 +52,6 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(42)))), ((int)(((byte)(58)))));
-            this.panel1.Controls.Add(this.iconButton12);
             this.panel1.Controls.Add(this.iconButton13);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
@@ -64,26 +62,6 @@
             this.panel1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseDown_1);
             this.panel1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseMove_1);
             this.panel1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseUp_1);
-            // 
-            // iconButton12
-            // 
-            this.iconButton12.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.iconButton12.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.iconButton12.FlatAppearance.BorderSize = 0;
-            this.iconButton12.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.iconButton12.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.iconButton12.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.iconButton12.IconChar = FontAwesome.Sharp.IconChar.WindowMinimize;
-            this.iconButton12.IconColor = System.Drawing.SystemColors.ButtonFace;
-            this.iconButton12.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.iconButton12.IconSize = 30;
-            this.iconButton12.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.iconButton12.Location = new System.Drawing.Point(697, 0);
-            this.iconButton12.Name = "iconButton12";
-            this.iconButton12.Size = new System.Drawing.Size(42, 42);
-            this.iconButton12.TabIndex = 6;
-            this.iconButton12.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.iconButton12.UseVisualStyleBackColor = true;
             // 
             // iconButton13
             // 
@@ -161,7 +139,7 @@
             this.guna2Button2.Size = new System.Drawing.Size(250, 45);
             this.guna2Button2.TabIndex = 9;
             this.guna2Button2.Text = "Отмена";
-
+            this.guna2Button2.Click += new System.EventHandler(this.guna2Button2_Click);
             // 
             // label2
             // 
@@ -196,7 +174,6 @@
             this.guna2TextBox2.SelectedText = "";
             this.guna2TextBox2.Size = new System.Drawing.Size(282, 36);
             this.guna2TextBox2.TabIndex = 7;
-
             // 
             // label1
             // 
@@ -231,7 +208,6 @@
             this.guna2TextBox1.SelectedText = "";
             this.guna2TextBox1.Size = new System.Drawing.Size(282, 36);
             this.guna2TextBox1.TabIndex = 5;
-
             // 
             // guna2Button1
             // 
@@ -285,7 +261,6 @@
             this.guna2TextBox9.SelectedText = "";
             this.guna2TextBox9.Size = new System.Drawing.Size(282, 36);
             this.guna2TextBox9.TabIndex = 2;
-
             // 
             // label10
             // 
@@ -361,6 +336,5 @@
         private System.Windows.Forms.Label label10;
         private Guna.UI2.WinForms.Guna2TextBox guna2TextBox10;
         private Guna.UI2.WinForms.Guna2BorderlessForm guna2BorderlessForm1;
-        private FontAwesome.Sharp.IconButton iconButton12;
     }
 }

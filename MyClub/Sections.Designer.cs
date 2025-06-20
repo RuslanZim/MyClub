@@ -105,7 +105,6 @@
             this.txtSportFilter.SelectedText = "";
             this.txtSportFilter.Size = new System.Drawing.Size(282, 36);
             this.txtSportFilter.TabIndex = 17;
-
             // 
             // btnSave
             // 
@@ -125,7 +124,6 @@
             this.btnSave.Size = new System.Drawing.Size(244, 45);
             this.btnSave.TabIndex = 18;
             this.btnSave.Text = "Сохранить";
-
             // 
             // comboBoxTrainer
             // 
@@ -144,7 +142,6 @@
             this.comboBoxTrainer.Name = "comboBoxTrainer";
             this.comboBoxTrainer.Size = new System.Drawing.Size(282, 36);
             this.comboBoxTrainer.TabIndex = 16;
-
             // 
             // btnDelete
             // 
@@ -164,7 +161,6 @@
             this.btnDelete.Size = new System.Drawing.Size(244, 45);
             this.btnDelete.TabIndex = 11;
             this.btnDelete.Text = "Удалить";
-
             // 
             // btnEdit
             // 
@@ -184,7 +180,6 @@
             this.btnEdit.Size = new System.Drawing.Size(244, 45);
             this.btnEdit.TabIndex = 10;
             this.btnEdit.Text = "Изменить";
-
             // 
             // btnCreate
             // 
@@ -204,7 +199,6 @@
             this.btnCreate.Size = new System.Drawing.Size(244, 45);
             this.btnCreate.TabIndex = 9;
             this.btnCreate.Text = "Создать";
-
             // 
             // label1
             // 
@@ -252,7 +246,6 @@
             this.txtDescription.SelectedText = "";
             this.txtDescription.Size = new System.Drawing.Size(282, 156);
             this.txtDescription.TabIndex = 5;
-
             // 
             // label9
             // 
@@ -288,7 +281,6 @@
             this.txtName.SelectedText = "";
             this.txtName.Size = new System.Drawing.Size(282, 36);
             this.txtName.TabIndex = 2;
-
             // 
             // label10
             // 
@@ -331,7 +323,6 @@
             this.flowLayoutPanelSections.Size = new System.Drawing.Size(573, 663);
             this.flowLayoutPanelSections.TabIndex = 11;
             this.flowLayoutPanelSections.WrapContents = false;
-
             // 
             // guna2GroupBox3
             // 

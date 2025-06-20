@@ -56,7 +56,7 @@ namespace MyClub
 
             if (!hasLength.IsMatch(password))
             {
-                error = "Пароль должен быть от 6 до 12 символов.";
+                error = "Пароль должен быть от 8 до 32 символов.";
                 return false;
             }
             if (!hasDigit.IsMatch(password))

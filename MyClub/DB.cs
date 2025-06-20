@@ -1561,6 +1561,156 @@ namespace MyClub
                 return false;
             }
         }
+
+
+        /// <summary>Получить все уведомления</summary>
+        public List<Notification> GetAllNotifications()
+        {
+            var list = new List<Notification>();
+            const string sql = @"
+                SELECT
+                    [ID уведомления]   AS NotificationId,
+                    [Заголовок]        AS Title,
+                    [Сообщение]        AS Body,
+                    [Дата создания]    AS CreatedAt,
+                    [Создал]           AS AuthorUserId
+                FROM dbo.Notifications
+                ORDER BY [Дата создания] DESC";
+
+            using (var conn = new SqlConnection(StringConnection))
+            using (var cmd = new SqlCommand(sql, conn))
+            {
+                conn.Open();
+                using (var rdr = cmd.ExecuteReader())
+                {
+                    while (rdr.Read())
+                    {
+                        list.Add(new Notification
+                        {
+                            NotificationId = (int)rdr["NotificationId"],
+                            Title = rdr["Title"].ToString(),
+                            Body = rdr["Body"].ToString(),
+                            CreatedAt = (DateTime)rdr["CreatedAt"],
+                            AuthorUserId = (int)rdr["AuthorUserId"]
+                        });
+                    }
+                }
+            }
+            return list;
+        }
+
+        /// <summary>Получить одно уведомление по ID</summary>
+        public Notification GetNotificationById(int id)
+        {
+            const string sql = @"
+                SELECT
+                    [ID уведомления] AS NotificationId,
+                    [Заголовок]      AS Title,
+                    [Сообщение]      AS Body,
+                    [Дата создания]  AS CreatedAt,
+                    [Создал]         AS AuthorUserId
+                FROM dbo.Notifications
+                WHERE [ID уведомления] = @id";
+
+            using (var conn = new SqlConnection(StringConnection))
+            using (var cmd = new SqlCommand(sql, conn))
+            {
+                cmd.Parameters.AddWithValue("@id", id);
+                conn.Open();
+                using (var rdr = cmd.ExecuteReader())
+                {
+                    if (!rdr.Read()) return null;
+                    return new Notification
+                    {
+                        NotificationId = (int)rdr["NotificationId"],
+                        Title = rdr["Title"].ToString(),
+                        Body = rdr["Body"].ToString(),
+                        CreatedAt = (DateTime)rdr["CreatedAt"],
+                        AuthorUserId = (int)rdr["AuthorUserId"]
+                    };
+                }
+            }
+        }
+
+        /// <summary>Создать новое уведомление</summary>
+        public bool CreateNotification(string title, string body, int authorUserId)
+        {
+            const string sql = @"
+                INSERT INTO dbo.Notifications
+                  ([Заголовок], [Сообщение], [Создал])
+                VALUES
+                  (@title, @body, @author)";
+            try
+            {
+                using (var conn = new SqlConnection(StringConnection))
+                using (var cmd = new SqlCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@title", title);
+                    cmd.Parameters.AddWithValue("@body", body);
+                    cmd.Parameters.AddWithValue("@author", authorUserId);
+                    conn.Open();
+                    return cmd.ExecuteNonQuery() == 1;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка CreateNotification: {ex.Message}", "Ошибка БД",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+        }
+
+        /// <summary>Обновить существующее уведомление (только заголовок и тело)</summary>
+        public bool UpdateNotification(int id, string title, string body)
+        {
+            const string sql = @"
+                UPDATE dbo.Notifications
+                   SET [Заголовок] = @title,
+                       [Сообщение] = @body
+                 WHERE [ID уведомления] = @id";
+            try
+            {
+                using (var conn = new SqlConnection(StringConnection))
+                using (var cmd = new SqlCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@id", id);
+                    cmd.Parameters.AddWithValue("@title", title);
+                    cmd.Parameters.AddWithValue("@body", body);
+                    conn.Open();
+                    return cmd.ExecuteNonQuery() == 1;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка UpdateNotification: {ex.Message}", "Ошибка БД",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+        }
+
+        /// <summary>Удалить уведомление</summary>
+        public bool DeleteNotification(int id)
+        {
+            const string sql = @"
+                DELETE FROM dbo.Notifications
+                WHERE [ID уведомления] = @id";
+            try
+            {
+                using (var conn = new SqlConnection(StringConnection))
+                using (var cmd = new SqlCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@id", id);
+                    conn.Open();
+                    return cmd.ExecuteNonQuery() == 1;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка DeleteNotification: {ex.Message}", "Ошибка БД",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+        }
     }
 }
 
